@@ -21,6 +21,17 @@ const mainNavItems: NavItem[] = [
         href: dashboard(),
         icon: LayoutGrid,
     },
+    // TODO: Re-add when we have these pages
+    // {
+    //     title: 'My Updates',
+    //     href: myUpdates(),
+    //     icon: LayoutGrid,
+    // },
+    // {
+    //     title: 'My Donations',
+    //     href: myDonations(),
+    //     icon: LayoutGrid,
+    // }
 ];
 
 // const footerNavItems: NavItem[] = [
