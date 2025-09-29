@@ -21,6 +21,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
     Route::prefix('dashboard')->name('dashboard.')->group(function () {
+        Route::get('/{fundingPage}', function () {
+            return Inertia::render('dashboard/show');
+        })->name('show');
+
         Route::get('/create', function () {
             return Inertia::render('dashboard/create');
         })->name('create');
@@ -28,10 +32,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/edit/{fundingPage}', function () {
             return Inertia::render('dashboard/edit');
         })->name('edit');
-
-        Route::get('/detail/{fundingPage}', function () {
-            return Inertia::render('dashboard/detail');
-        })->name('detail');
     });
 });
 

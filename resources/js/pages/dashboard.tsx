@@ -1,5 +1,6 @@
 import AppLayout from '@/layouts/app-layout';
 import { dashboard } from '@/routes';
+import { edit, show } from '@/routes/dashboard/index';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 
@@ -89,12 +90,20 @@ export default function Dashboard() {
                                     {page.startDate} &ndash; {page.endDate}
                                 </span>
                             </div>
-                            <Link
-                                href={`/dashboard/detail/${page.uuid}`}
-                                className="inline-block rounded border border-[#f53003] px-4 py-1 text-sm font-semibold text-[#f53003] transition hover:bg-[#f53003] hover:text-white dark:border-[#FF4433] dark:text-[#FF4433] dark:hover:bg-[#FF4433] dark:hover:text-[#1C1C1A]"
-                            >
-                                View Details
-                            </Link>
+                            <div className="flex gap-2">
+                                <Link
+                                    href={show(page.uuid).url}
+                                    className="inline-block rounded border border-[#f53003] px-4 py-1 text-sm font-semibold text-[#f53003] transition hover:bg-[#f53003] hover:text-white dark:border-[#FF4433] dark:text-[#FF4433] dark:hover:bg-[#FF4433] dark:hover:text-[#1C1C1A]"
+                                >
+                                    View Details
+                                </Link>
+                                <Link
+                                    href={edit(page.uuid).url}
+                                    className="inline-block rounded border border-[#19140035] px-4 py-1 text-sm font-semibold text-[#1b1b18] transition hover:border-[#1915014a] hover:text-[#f53003] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:text-[#FF4433]"
+                                >
+                                    Edit
+                                </Link>
+                            </div>
                         </div>
                     ))}
                 </div>
