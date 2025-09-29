@@ -20,34 +20,44 @@ export default function About() {
                                     About Simple Funding
                                 </h1>
                                 <p className="mb-4 text-base text-[#706f6c] dark:text-[#A1A09A]">
-                                    Simple Funding is dedicated to making fundraising effortless for everyone. 
-                                    Our platform empowers individuals and organizations to launch funding pages, 
-                                    accept donations securely, and keep supporters engaged with updates.
+                                    Simple Funding is dedicated to making
+                                    fundraising effortless for everyone. Our
+                                    platform empowers individuals and
+                                    organizations to launch funding pages,
+                                    accept donations securely, and keep
+                                    supporters engaged with updates.
                                 </p>
                                 <ul className="mb-6 flex flex-col gap-2">
                                     <li className="flex items-center gap-2">
                                         <span className="inline-block h-3 w-3 rounded-full bg-[#f53003] dark:bg-[#FF4433]" />
-                                        <span>Trusted by hundreds of campaigns</span>
+                                        <span>
+                                            Trusted by hundreds of campaigns
+                                        </span>
                                     </li>
                                     <li className="flex items-center gap-2">
                                         <span className="inline-block h-3 w-3 rounded-full bg-[#f53003] dark:bg-[#FF4433]" />
-                                        <span>Transparent fees & instant setup</span>
+                                        <span>
+                                            Transparent fees & instant setup
+                                        </span>
                                     </li>
                                     <li className="flex items-center gap-2">
                                         <span className="inline-block h-3 w-3 rounded-full bg-[#f53003] dark:bg-[#FF4433]" />
-                                        <span>Support for CSV export and secure payments</span>
+                                        <span>
+                                            Support for CSV export and secure
+                                            payments
+                                        </span>
                                     </li>
                                 </ul>
                                 <div className="flex gap-3">
                                     <a
                                         href="/register"
-                                        className="inline-block rounded-sm border border-[#f53003] bg-[#f53003] px-5 py-2 text-sm font-semibold text-white shadow hover:bg-[#d82a00] transition dark:border-[#FF4433] dark:bg-[#FF4433] dark:text-[#1C1C1A] dark:hover:bg-[#d82a00]"
+                                        className="inline-block rounded-sm border border-[#f53003] bg-[#f53003] px-5 py-2 text-sm font-semibold text-white shadow transition hover:bg-[#d82a00] dark:border-[#FF4433] dark:bg-[#FF4433] dark:text-[#1C1C1A] dark:hover:bg-[#d82a00]"
                                     >
                                         Get Started Free
                                     </a>
                                     <a
                                         href="/"
-                                        className="inline-block rounded-sm border border-[#19140035] px-5 py-2 text-sm font-semibold text-[#1b1b18] hover:border-[#1915014a] hover:text-[#f53003] transition dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:text-[#FF4433]"
+                                        className="inline-block rounded-sm border border-[#19140035] px-5 py-2 text-sm font-semibold text-[#1b1b18] transition hover:border-[#1915014a] hover:text-[#f53003] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:text-[#FF4433]"
                                     >
                                         Back to Home
                                     </a>
