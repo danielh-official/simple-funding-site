@@ -25,7 +25,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function FundingPageEdit() {
+export default function Edit() {
     // For now, use local state. Later, use Inertia form helpers.
     const [form, setForm] = useState({
         title: sampleFundingPage.title,

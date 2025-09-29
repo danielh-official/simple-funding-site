@@ -20,18 +20,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
 
-    Route::prefix('dashboard')->name('dashboard.')->group(function () {
-        Route::get('/{fundingPage}', function () {
-            return Inertia::render('dashboard/show');
-        })->name('show');
-
+    Route::prefix('dashboard/funding-page')->name('dashboard.')->group(function () {
         Route::get('/create', function () {
             return Inertia::render('dashboard/create');
         })->name('create');
 
-        Route::get('/edit/{fundingPage}', function () {
+        Route::get('/{fundingPage}/edit', function () {
             return Inertia::render('dashboard/edit');
         })->name('edit');
+
+        Route::get('/{fundingPage}', function () {
+            return Inertia::render('dashboard/show');
+        })->name('show');
     });
 });
 

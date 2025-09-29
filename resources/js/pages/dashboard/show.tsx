@@ -37,7 +37,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: sampleFundingPage.title, href: '#' },
 ];
 
-export default function FundingPageShow() {
+export default function Show() {
     // In future, get funding page data from props via usePage<SharedData>().props
     const page = sampleFundingPage;
 
