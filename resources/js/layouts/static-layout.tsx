@@ -11,11 +11,12 @@ interface StaticLayoutProps {
 
 /**
  * A component for the navigation link
- * 
+ *
  * The link should be styled differently based on whether the user is on the page or not.
  */
 function NavLink({
-    href, children,
+    href,
+    children,
 }: {
     href: RouteDefinition<'get'>;
     children: ReactNode;
@@ -24,17 +25,15 @@ function NavLink({
 
     return (
         <Link
-            className={
-                [
-                    "inline-block rounded-sm border px-5 py-1.5 text-sm leading-normal transition",
-                    "border-[#19140035] text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]",
-                    isActive
-                        ? "font-bold border-[#f53003] text-[#f53003] dark:border-[#FF4433] dark:text-[#FF4433]"
-                        : ""
-                ].join(" ")
-            }
+            className={[
+                'inline-block rounded-sm border px-5 py-1.5 text-sm leading-normal transition',
+                'border-[#19140035] text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]',
+                isActive
+                    ? 'border-[#f53003] font-bold text-[#f53003] dark:border-[#FF4433] dark:text-[#FF4433]'
+                    : '',
+            ].join(' ')}
             href={href}
-            aria-current={isActive ? "page" : undefined}
+            aria-current={isActive ? 'page' : undefined}
         >
             {children}
         </Link>
@@ -64,12 +63,8 @@ export default function StaticLayout({
                         </>
                     ) : (
                         <>
-                            <NavLink href={login()}>
-                                Log in
-                            </NavLink>
-                            <NavLink href={register()}>
-                                Register
-                            </NavLink>
+                            <NavLink href={login()}>Log in</NavLink>
+                            <NavLink href={register()}>Register</NavLink>
                         </>
                     )}
                 </nav>
