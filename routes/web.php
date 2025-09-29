@@ -29,9 +29,41 @@ Route::middleware(['auth', 'verified'])->group(function () {
             return Inertia::render('dashboard/edit');
         })->name('edit');
 
+        Route::post('/{fundingPage}/donate', function () {
+            // Logic to handle donation
+        })->name('donate');
+
+        Route::post('/{fundingPage}/updates/post', function () {
+            // Logic to post a new update
+        })->name('updates.post');
+
         Route::get('/{fundingPage}', function () {
             return Inertia::render('dashboard/show');
         })->name('show');
+    });
+
+    Route::name('my-updates.')->get('/my-updates', function () {
+        Route::get('/', function () {
+            return Inertia::render('updates/index');
+        })->name('index');
+
+        Route::get('/create', function () {
+            return Inertia::render('updates/create');
+        })->name('create');
+
+        Route::post('/create', function () {
+            // Logic to store the new funding page update
+        })->name('store');
+
+        Route::delete('/{fundingPageUpdate}', function () {
+            // Logic to delete the funding page update
+        })->name('delete');
+    });
+
+    Route::name('my-donations.')->get('/my-donations', function () {
+        Route::get('/', function () {
+            return Inertia::render('donations/index');
+        })->name('index');
     });
 });
 
