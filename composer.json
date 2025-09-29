@@ -1,6 +1,6 @@
 {
-    "name": "laravel/react-starter-kit",
-    "description": "The skeleton application for the Laravel framework.",
+    "name": "danielh-official/simple-funding-site",
+    "description": "A simple funding site for showcasing Laravel and React capabilities.",
     "license": "MIT",
     "type": "project",
     "keywords": [
