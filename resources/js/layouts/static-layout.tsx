@@ -40,9 +40,7 @@ function NavLink({
     );
 }
 
-export default function StaticLayout({
-    children,
-}: StaticLayoutProps) {
+export default function StaticLayout({ children }: StaticLayoutProps) {
     const { auth } = usePage<SharedData>().props;
 
     return (
