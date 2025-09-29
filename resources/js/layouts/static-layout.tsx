@@ -1,11 +1,44 @@
 import { about, dashboard, home, login, pricing, register } from '@/routes';
 import { type BreadcrumbItem, type SharedData } from '@/types';
+import { RouteDefinition } from '@/wayfinder';
 import { Link, usePage } from '@inertiajs/react';
 import { type ReactNode } from 'react';
 
 interface StaticLayoutProps {
     children: ReactNode;
     breadcrumbs?: BreadcrumbItem[];
+}
+
+/**
+ * A component for the navigation link
+ * 
+ * The link should be styled differently based on whether the user is on the page or not.
+ */
+function NavLink({
+    href, children,
+}: {
+    href: RouteDefinition<'get'>;
+    children: ReactNode;
+}) {
+    const isActive = usePage().url === href.url;
+
+    return (
+        <Link
+            className={
+                [
+                    "inline-block rounded-sm border px-5 py-1.5 text-sm leading-normal transition",
+                    "border-[#19140035] text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]",
+                    isActive
+                        ? "font-bold border-[#f53003] text-[#f53003] dark:border-[#FF4433] dark:text-[#FF4433]"
+                        : ""
+                ].join(" ")
+            }
+            href={href}
+            aria-current={isActive ? "page" : undefined}
+        >
+            {children}
+        </Link>
+    );
 }
 
 export default function StaticLayout({
@@ -21,46 +54,22 @@ export default function StaticLayout({
                 {/* MARK: - Navigation */}
                 <nav className="flex items-center justify-end gap-4">
                     {/* MARK: - Links to pages that are always available regardless of whether user is guest or authenticated */}
-                    <Link
-                        className="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
-                        href={home()}
-                    >
-                        Home
-                    </Link>
-                    <Link
-                        className="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
-                        href={about()}
-                    >
-                        About
-                    </Link>
-                    <Link
-                        className="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
-                        href={pricing()}
-                    >
-                        Pricing
-                    </Link>
+                    <NavLink href={home()}>Home</NavLink>
+                    <NavLink href={about()}>About</NavLink>
+                    <NavLink href={pricing()}>Pricing</NavLink>
                     {/* MARK: - If user is authenticated, show dashboard, otherwise login and register */}
                     {auth.user ? (
-                        <Link
-                            href={dashboard()}
-                            className="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
-                        >
-                            Dashboard
-                        </Link>
+                        <>
+                            <NavLink href={dashboard()}>Dashboard</NavLink>
+                        </>
                     ) : (
                         <>
-                            <Link
-                                href={login()}
-                                className="inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]"
-                            >
+                            <NavLink href={login()}>
                                 Log in
-                            </Link>
-                            <Link
-                                href={register()}
-                                className="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
-                            >
+                            </NavLink>
+                            <NavLink href={register()}>
                                 Register
-                            </Link>
+                            </NavLink>
                         </>
                     )}
                 </nav>
