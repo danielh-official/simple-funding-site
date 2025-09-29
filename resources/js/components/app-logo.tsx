@@ -9,7 +9,9 @@ export default function AppLogo({ appName }: { appName?: string }) {
             <div className="ml-1 grid flex-1 text-left text-sm">
                 <span className="mb-0.5 truncate leading-tight font-semibold">
                     {/* Use config app name */}
-                    {appName || import.meta.env.VITE_APP_NAME || 'Simple Funding'}
+                    {appName ||
+                        import.meta.env.VITE_APP_NAME ||
+                        'Simple Funding'}
                 </span>
             </div>
         </>
