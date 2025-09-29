@@ -42,8 +42,6 @@ function NavLink({
 
 export default function StaticLayout({
     children,
-    breadcrumbs,
-    ...props
 }: StaticLayoutProps) {
     const { auth } = usePage<SharedData>().props;
 
