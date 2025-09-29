@@ -14,6 +14,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 const sampleFundingPages = [
     {
         id: 1,
+        uuid: 'sample-uuid-1',
         title: 'Help Build a Community Garden',
         description:
             'Raising funds to create a green space for our neighborhood.',
@@ -25,6 +26,7 @@ const sampleFundingPages = [
     },
     {
         id: 2,
+        uuid: 'sample-uuid-2',
         title: 'Support Local Animal Shelter',
         description:
             'Every dollar helps provide food and care for rescued pets.',
@@ -36,6 +38,7 @@ const sampleFundingPages = [
     },
     {
         id: 3,
+        uuid: 'sample-uuid-3',
         title: 'School Supplies for Kids',
         description:
             'Join us in making sure every child starts the year prepared.',
@@ -87,7 +90,7 @@ export default function Dashboard() {
                                 </span>
                             </div>
                             <Link
-                                href={`/dashboard/detail/${page.id}`}
+                                href={`/dashboard/detail/${page.uuid}`}
                                 className="inline-block rounded border border-[#f53003] px-4 py-1 text-sm font-semibold text-[#f53003] transition hover:bg-[#f53003] hover:text-white dark:border-[#FF4433] dark:text-[#FF4433] dark:hover:bg-[#FF4433] dark:hover:text-[#1C1C1A]"
                             >
                                 View Details
