@@ -1,5 +1,7 @@
 # Simple Funding Site
 
+Why? This repository exists to showcase my Laravel and React skills.
+
 ## How It Should Work
 
 - Has a static guest frontend that explains the site and its purpose with a:
@@ -21,7 +23,7 @@
 
 ## TODO
 
-- [ ] Static website
+- [x] Static pages
 - [ ] Dashboard
 - [ ] REST API
 - [ ] Export
