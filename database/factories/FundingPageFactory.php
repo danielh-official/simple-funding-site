@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,11 @@ class FundingPageFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'user_id' => User::factory(),
+            'title' => $this->faker->sentence,
+            'description' => $this->faker->paragraph,
+            'goal_amount' => $this->faker->numberBetween(1000, 10000),
+            'current_amount' => $this->faker->numberBetween(0, int2: 999),
         ];
     }
 }

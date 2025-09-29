@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('funding_page_updates', function (Blueprint $table) {
+        Schema::create('donations', function (Blueprint $table) {
             $table->id();
-            $table->uuid()->unique();
             $table->foreignId('funding_page_id')->constrained()->onDelete('cascade');
-            $table->string('title');
-            $table->text('content');
+            $table->foreignId('user_id')->constrained()->onDelete('set null')->nullable();
+            $table->decimal('amount', 15, 2);
+            $table->string('donor_name')->nullable();
+            $table->string('donor_email');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('funding_page_updates');
+        Schema::dropIfExists('donations');
     }
 };
