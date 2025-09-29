@@ -3,6 +3,7 @@
 Purpose: Simple funding site built with Laravel 12 + Inertia (React + TypeScript + Tailwind). Supports static guest pages (home/about/pricing), authentication, and dashboard for managing funding pages. Features CSV export via queued jobs. Keep changes consistent with Wayfinder route helpers and established form conventions.
 
 ### 1. High-Level Architecture
+
 - Backend: Laravel 12, Fortify for auth (email verification, password reset, 2FA), Inertia for server-driven SPA pages.
 - Frontend: React 19 + TypeScript + Tailwind v4 via Vite. Pages live in `resources/js/pages/**` and map 1:1 to Inertia component names returned from controllers (e.g. `Inertia::render('settings/profile')` -> `resources/js/pages/settings/profile.tsx`).
 - Routing Bridge: Laravel Wayfinder auto-generates typed TS route helpers in both `resources/js/routes/**` and `resources/js/actions/**`. Use these instead of hardcoding URLs.
@@ -10,6 +11,7 @@ Purpose: Simple funding site built with Laravel 12 + Inertia (React + TypeScript
 - Layout Composition: `AppLayout` provides base structure with breadcrumbs; `SettingsLayout` adds settings navigation for nested settings pages.
 
 ### 2. Key Directories & Generated Code
+
 - `app/Http/Controllers/**`: Thin controllers, mostly return Inertia views and orchestrate validation + persistence.
 - `app/Http/Requests/**`: FormRequest validation (e.g. `Settings/ProfileUpdateRequest`). Always prefer creating a FormRequest for non-trivial validation.
 - `resources/js/pages/**`: Page components. Filenames are lowercase/kebab-case matching Inertia render calls (e.g. `'settings/profile'`).
@@ -19,6 +21,7 @@ Purpose: Simple funding site built with Laravel 12 + Inertia (React + TypeScript
 - `tests/Feature/**`: Pest feature tests mirror route names (e.g. `profile.edit`, `profile.update`). Use `route()` helper not hardcoded paths.
 
 ### 3. Conventions & Patterns
+
 - Route Names: snake_case or dot.notation (Laravel standard) used in PHP tests (`route('profile.update')`). TS helpers auto-generate URLs; never hardcode paths.
 - Inertia Component Naming: Forward slash path (e.g. `settings/profile`) must match exact file path in `resources/js/pages/` with `.tsx` extension.
 - Forms in React: Always use `<Form {...ControllerAction.form()}>` pattern with render prop for state: `({ processing, recentlySuccessful, errors }) => (...)`.
@@ -28,6 +31,7 @@ Purpose: Simple funding site built with Laravel 12 + Inertia (React + TypeScript
 - Email Verification & 2FA: UI conditionals based on Fortify props (`mustVerifyEmail`, `auth.user.email_verified_at`, etc.).
 
 ### 4. Adding New Server + Client Pages
+
 1. Define route in appropriate `routes/*.php` (group under auth middleware if protected). Use `Inertia::render('segment/name')`.
 2. Implement controller (if logic required) + optional FormRequest for validation.
 3. Generate corresponding TS route helper (follow structure in `resources/js/routes/profile/index.ts`: export main function, `.definition`, `.url`, verb shortcuts, `.form()` with method spoofing where needed). Keep JSDoc `@see` and `@route` style comments for traceability.
@@ -35,34 +39,41 @@ Purpose: Simple funding site built with Laravel 12 + Inertia (React + TypeScript
 5. Write Pest feature test referencing the named route (not path) for access + expected redirects.
 
 ### 5. Testing & Local Dev Workflows
+
 - Primary dev script (full stack concurrent): `composer dev` (see `composer.json` `dev` script) launches: Laravel server, queue listener, pail (log viewer), Vite dev server.
 - SSR variant: `composer dev:ssr` after building SSR bundle via `npm run build:ssr`.
 - PHP Tests: `composer test` (clears config then runs PHPUnit via Pest). Add feature tests in `tests/Feature/**`; use factories for users.
 - Frontend Types/Lint/Format: `npm run types`, `npm run lint`, `npm run format:check` / `npm run format`.
 
 ### 6. Tailwind & Styling
+
 - Tailwind v4 via `@tailwindcss/vite`. Utility-first approach; shared UI primitives under `resources/js/components/ui/*` (e.g. `button`, `input`, `label`). Prefer importing these components over redefining styles.
 - Use `class-variance-authority` + `tailwind-merge` where pattern already exists (follow examples in existing UI components if extending variants).
 
 ### 7. Auth & Security Notes
+
 - Use `middleware(['auth','verified'])` for protected dashboard routes. For settings, existing group already enforces `auth` only; email verification gating handled inside controller/page.
 - Account deletion and password changes require current password validation (`current_password` rule or manual `password` field with `'current_password'`). Mirror existing tests when adding similar sensitive actions.
 
 ### 8. Common Pitfalls to Avoid
+
 - Do NOT hardcode URLs in React—always use generated route helpers to preserve consistency & future regeneration.
 - Don’t bypass FormRequest validation—tests assume consistent validation error structure.
 - Avoid altering generated helper signatures; pages rely on `edit.form()`, `update.form()`, etc. Extending: copy existing shape.
 - Keep Inertia component names lowercase/slug to match file path exactly; mismatches cause 404-like rendering errors.
 
 ### 9. Example Pattern (Profile Update)
+
 - PHP Controller: `ProfileController::update` validates via `ProfileUpdateRequest`, mutates user, redirects `to_route('profile.edit')`.
 - TS Route Helper: `resources/js/routes/profile/index.ts` `update.form()` sets `_method: 'PATCH'` and POSTs.
 - React Page: `pages/settings/profile.tsx` pulls `auth.user`, uses `<Form {...ProfileController.update.form()}>` and renders inputs with defaults.
 - Test: `tests/Feature/Settings/ProfileUpdateTest.php` asserts redirect + changed attributes.
 
 ### 10. When Unsure
+
 - Look for an analogous existing implementation (profile, password, two-factor) and replicate structure.
 - Keep instructions & trace comments (`@see Controller::method`) in new route helper modules for maintainability.
 
 ---
+
 Feedback: Let me know if you’d like deeper coverage on generation of route helpers, SSR setup, or adding a new domain model/funding page workflow.
