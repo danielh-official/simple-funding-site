@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('donations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('funding_page_id')->constrained()->onDelete('cascade');
-            $table->foreignId('user_id')->constrained()->onDelete('set null')->nullable();
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
             $table->decimal('amount', 15, 2);
             $table->string('donor_name')->nullable();
             $table->string('donor_email');
