@@ -1,5 +1,5 @@
 import AppLayout from '@/layouts/app-layout';
-import { dashboard } from '@/routes';
+import { index } from '@/routes/dashboard/my-funding-pages';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 
@@ -33,7 +33,7 @@ const sampleFundingPage = {
 };
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Dashboard', href: dashboard().url },
+    { title: 'My Funding Pages', href: index().url },
     { title: sampleFundingPage.title, href: '#' },
 ];
 

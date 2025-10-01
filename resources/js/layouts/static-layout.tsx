@@ -1,4 +1,5 @@
-import { about, dashboard, home, login, pricing, register } from '@/routes';
+import { about, home, login, pricing, register } from '@/routes';
+import { index } from '@/routes/dashboard/my-funding-pages';
 import { type BreadcrumbItem, type SharedData } from '@/types';
 import { RouteDefinition } from '@/wayfinder';
 import { Link, usePage } from '@inertiajs/react';
@@ -55,7 +56,7 @@ export default function StaticLayout({ children }: StaticLayoutProps) {
                     {/* MARK: - If user is authenticated, show dashboard, otherwise login and register */}
                     {auth.user ? (
                         <>
-                            <NavLink href={dashboard()}>Dashboard</NavLink>
+                            <NavLink href={index()}>Dashboard</NavLink>
                         </>
                     ) : (
                         <>

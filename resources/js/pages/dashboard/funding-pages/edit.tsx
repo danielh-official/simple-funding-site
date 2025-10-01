@@ -1,6 +1,5 @@
 import AppLayout from '@/layouts/app-layout';
-import { dashboard } from '@/routes';
-import { edit } from '@/routes/dashboard/index';
+import { edit, index } from '@/routes/dashboard/my-funding-pages';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import { useState } from 'react';
@@ -18,7 +17,7 @@ const sampleFundingPage = {
 };
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Dashboard', href: dashboard().url },
+    { title: 'My Funding Pages', href: index().url },
     {
         title: sampleFundingPage.title,
         href: edit(sampleFundingPage.uuid).url,

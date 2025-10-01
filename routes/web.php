@@ -15,55 +15,59 @@ Route::get('/pricing', function () {
     return Inertia::render('pricing');
 })->name('pricing');
 
+Route::redirect('/dashboard', '/dashboard/my-funding-pages');
+
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
+    Route::prefix('dashboard')->name('dashboard.')->group(function () {
+        Route::prefix('my-funding-pages')->name('my-funding-pages.')->group(function () {
+            Route::get('/', function () {
+                return Inertia::render('dashboard/funding-pages/index');
+            })->name('index');
 
-    Route::prefix('dashboard/funding-page')->name('dashboard.')->group(function () {
-        Route::get('/create', function () {
-            return Inertia::render('dashboard/create');
-        })->name('create');
+            Route::get('/create', function () {
+                return Inertia::render('dashboard/funding-pages/create');
+            })->name('create');
 
-        Route::get('/{fundingPage}/edit', function () {
-            return Inertia::render('dashboard/edit');
-        })->name('edit');
+            Route::get('/{fundingPage}/edit', function () {
+                return Inertia::render('dashboard/funding-pages/edit');
+            })->name('edit');
 
-        Route::post('/{fundingPage}/donate', function () {
-            // Logic to handle donation
-        })->name('donate');
+            Route::post('/{fundingPage}/donate', function () {
+                // TODO: Logic to handle donation
+            })->name('donate');
 
-        Route::post('/{fundingPage}/updates/post', function () {
-            // Logic to post a new update
-        })->name('updates.post');
+            Route::post('/{fundingPage}/updates/post', function () {
+                // TODO: Logic to post a new update
+            })->name('updates.post');
 
-        Route::get('/{fundingPage}', function () {
-            return Inertia::render('dashboard/show');
-        })->name('show');
-    });
+            Route::get('/{fundingPage}', function () {
+                return Inertia::render('dashboard/funding-pages/show');
+            })->name('show');
+        });
 
-    Route::name('my-updates.')->get('/my-updates', function () {
-        Route::get('/', function () {
-            return Inertia::render('updates/index');
-        })->name('index');
+        Route::prefix('my-updates')->name('my-updates.')->group(function () {
+            Route::get('/', function () {
+                return Inertia::render('dashboard/updates/index');
+            })->name('index');
 
-        Route::get('/create', function () {
-            return Inertia::render('updates/create');
-        })->name('create');
+            Route::get('/create', function () {
+                return Inertia::render('dashboard/updates/create');
+            })->name('create');
 
-        Route::post('/create', function () {
-            // Logic to store the new funding page update
-        })->name('store');
+            Route::post('/create', function () {
+                // TODO: Logic to store the new funding page update
+            })->name('store');
 
-        Route::delete('/{fundingPageUpdate}', function () {
-            // Logic to delete the funding page update
-        })->name('delete');
-    });
+            Route::delete('/{fundingPageUpdate}', function () {
+                // TODO: Logic to delete the funding page update
+            })->name('delete');
+        });
 
-    Route::name('my-donations.')->get('/my-donations', function () {
-        Route::get('/', function () {
-            return Inertia::render('donations/index');
-        })->name('index');
+        Route::prefix('/my-donations')->name('my-donations.')->group(function () {
+            Route::get('/', function () {
+                return Inertia::render('dashboard/donations/index');
+            })->name('index');
+        });
     });
 });
 

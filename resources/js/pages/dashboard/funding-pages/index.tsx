@@ -1,13 +1,12 @@
 import AppLayout from '@/layouts/app-layout';
-import { dashboard } from '@/routes';
-import { edit, show, create } from '@/routes/dashboard/index';
+import { create, edit, index, show } from '@/routes/dashboard/my-funding-pages';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Dashboard',
-        href: dashboard().url,
+        title: 'My Funding Pages',
+        href: index().url,
     },
 ];
 
@@ -51,15 +50,12 @@ const sampleFundingPages = [
     },
 ];
 
-export default function Dashboard() {
+export default function Index() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Dashboard" />
+            <Head title="My Funding Pages" />
             <div className="flex flex-col gap-8 p-4">
                 <div className="flex items-center justify-between">
-                    <h2 className="text-xl font-semibold text-[#1b1b18] dark:text-[#EDEDEC]">
-                        Your Funding Pages
-                    </h2>
                     <Link
                         href={create().url}
                         className="inline-block rounded bg-[#f53003] px-4 py-2 text-sm font-semibold text-white shadow transition hover:bg-[#d82a00] dark:bg-[#FF4433] dark:hover:bg-[#d82a00]"

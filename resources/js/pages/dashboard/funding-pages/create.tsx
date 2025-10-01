@@ -1,6 +1,5 @@
 import AppLayout from '@/layouts/app-layout';
-import { dashboard } from '@/routes';
-import { create } from '@/routes/dashboard/index';
+import { create, index } from '@/routes/dashboard/my-funding-pages';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import { useState } from 'react';
@@ -16,7 +15,7 @@ function InputError({ message }: { message?: string }) {
 }
 
 const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'Dashboard', href: dashboard().url },
+    { title: 'My Funding Pages', href: index().url },
     { title: 'Create Funding Page', href: create().url },
 ];
 
@@ -47,7 +46,8 @@ export default function Create() {
         // Simple static validation
         const newErrors: { [key: string]: string } = {};
         if (!form.title) newErrors.title = 'Title is required.';
-        if (!form.goalAmount || Number(form.goalAmount) <= 0) newErrors.goalAmount = 'Goal amount must be greater than 0.';
+        if (!form.goalAmount || Number(form.goalAmount) <= 0)
+            newErrors.goalAmount = 'Goal amount must be greater than 0.';
         if (!form.currency) newErrors.currency = 'Currency is required.';
 
         setErrors(newErrors);
@@ -187,7 +187,7 @@ export default function Create() {
                     </div>
                     <div className="flex items-center justify-end gap-2">
                         <Link
-                            href={dashboard().url}
+                            href={index().url}
                             className="rounded px-4 py-2 text-sm font-semibold text-[#706f6c] hover:underline dark:text-[#A1A09A]"
                         >
                             Cancel
@@ -195,7 +195,7 @@ export default function Create() {
                         <button
                             type="submit"
                             disabled={processing}
-                            className="mt-4 rounded bg-[#f53003] px-5 py-2 text-sm font-semibold text-white shadow transition hover:bg-[#d82a00] dark:bg-[#FF4433] dark:text-[#1C1C1A] dark:hover:bg-[#d82a00] disabled:opacity-60"
+                            className="mt-4 rounded bg-[#f53003] px-5 py-2 text-sm font-semibold text-white shadow transition hover:bg-[#d82a00] disabled:opacity-60 dark:bg-[#FF4433] dark:text-[#1C1C1A] dark:hover:bg-[#d82a00]"
                         >
                             Create Funding Page
                         </button>
