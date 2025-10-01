@@ -52,6 +52,9 @@ Why? This repository exists to showcase my Laravel and React skills.
 ## TODO
 
 - [x] Static pages
+- [ ] Use Dynamic Data
 - [ ] Dashboard
 - [ ] REST API
 - [ ] Export
+- [ ] Show Public Funding Pages on Home
+- [ ] Have Static Version on GitHub Pages
