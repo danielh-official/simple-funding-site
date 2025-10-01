@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
 import { store } from '@/routes/password/confirm';
+import { edit as home } from '@/routes/profile';
 import { Form, Head } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
 
@@ -12,6 +13,7 @@ export default function ConfirmPassword() {
         <AuthLayout
             title="Confirm your password"
             description="This is a secure area of the application. Please confirm your password before continuing."
+            homeLink={home()}
         >
             <Head title="Confirm password" />
 
