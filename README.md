@@ -24,6 +24,31 @@ Why? This repository exists to showcase my Laravel and React skills.
 - Frontend: React, Typescript (or modern JavaScript - ES6+)
 - Database: MySQL or PostgreSQL
 
+## Routes
+
+- GET Home: /
+- GET About: /about
+- GET Pricing: /pricing
+- GROUP Dashboard: /dashboard
+    - GROUP Funding Pages: /my-funding-pages
+        - GET /
+        - GET /create
+        - GET {fundingPage}/edit
+        - GET {fundingPage}/show
+        - POST /{fundingPage}/donate
+        - POST /{fundingPage}/update
+    - GROUP Updates: /my-updates
+        - GET /
+        - GET /create
+        - POST /create
+        - DELETE /{fundingPageUpdate}
+    - GROUP Donations: /my-donations
+        - GET /
+- GROUP Settings: /settings
+    - GET profile: /profile
+    - GET password: /password
+    - GET appearance: /appearance
+
 ## TODO
 
 - [x] Static pages
