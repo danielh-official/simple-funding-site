@@ -27,6 +27,7 @@ export default function Create() {
         currency: '',
         startDate: '',
         endDate: '',
+        published: false,
     });
 
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -62,6 +63,7 @@ export default function Create() {
                 currency: '',
                 startDate: '',
                 endDate: '',
+                published: false,
             });
         }
     }
@@ -183,6 +185,28 @@ export default function Create() {
                                 className="w-full rounded border px-3 py-2 text-sm"
                             />
                             <InputError message={errors.endDate} />
+                        </div>
+                        <div className="flex-1">
+                            <label
+                                className="mb-1 block text-sm font-medium"
+                                htmlFor="published"
+                            >
+                                Published
+                            </label>
+                            <input
+                                id="published"
+                                name="published"
+                                type="checkbox"
+                                checked={form.published}
+                                onChange={(e) =>
+                                    setForm((prev) => ({
+                                        ...prev,
+                                        published: e.target.checked,
+                                    }))
+                                }
+                                className="h-5 w-5 rounded border text-[#f53003] focus:ring-[#f53003] dark:border-gray-600 dark:bg-gray-700 dark:focus:ring-[#FF4433]"
+                            />
+                            <InputError message={errors.published} />
                         </div>
                     </div>
                     <div className="flex items-center justify-end gap-2">

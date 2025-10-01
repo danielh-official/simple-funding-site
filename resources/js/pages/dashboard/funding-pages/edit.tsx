@@ -14,6 +14,7 @@ const sampleFundingPage = {
     currency: 'USD',
     startDate: '2025-09-01',
     endDate: '2025-10-15',
+    published: false,
 };
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -33,6 +34,7 @@ export default function Edit() {
         currency: sampleFundingPage.currency,
         startDate: sampleFundingPage.startDate,
         endDate: sampleFundingPage.endDate,
+        published: sampleFundingPage.published,
     });
 
     function handleChange(
@@ -158,6 +160,27 @@ export default function Edit() {
                                 value={form.endDate}
                                 onChange={handleChange}
                                 className="w-full rounded border px-3 py-2 text-sm"
+                            />
+                        </div>
+                        <div className="flex-1">
+                            <label
+                                className="mb-1 block text-sm font-medium"
+                                htmlFor="published"
+                            >
+                                Published
+                            </label>
+                            <input
+                                id="published"
+                                name="published"
+                                type="checkbox"
+                                checked={form.published}
+                                onChange={(e) =>
+                                    setForm((prev) => ({
+                                        ...prev,
+                                        published: e.target.checked,
+                                    }))
+                                }
+                                className="h-5 w-5 rounded border text-[#f53003] focus:ring-[#f53003] dark:border-gray-600 dark:bg-gray-700 dark:focus:ring-[#FF4433]"
                             />
                         </div>
                     </div>

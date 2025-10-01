@@ -22,6 +22,7 @@ return new class extends Migration
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->string('currency', 3)->default('USD');
+            $table->dateTime('published_at')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

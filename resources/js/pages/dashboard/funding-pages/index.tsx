@@ -23,6 +23,7 @@ const sampleFundingPages = [
         currency: 'USD',
         startDate: '2025-09-01',
         endDate: '2025-10-15',
+        publishedAt: '2025-09-01 10:00:00',
     },
     {
         id: 2,
@@ -35,6 +36,7 @@ const sampleFundingPages = [
         currency: 'USD',
         startDate: '2025-08-20',
         endDate: '2025-12-01',
+        publishedAt: '2025-09-01 10:00:00',
     },
     {
         id: 3,
@@ -47,8 +49,20 @@ const sampleFundingPages = [
         currency: 'USD',
         startDate: '2025-09-10',
         endDate: '2025-10-05',
+        publishedAt: null,
     },
 ];
+
+function convertToLocalDate(dateString: string) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+    });
+}
 
 export default function Index() {
     return (
@@ -107,6 +121,11 @@ export default function Index() {
                                 >
                                     Edit
                                 </Link>
+                            </div>
+                            <div className="mt-4 text-xs text-muted-foreground">
+                                {page.publishedAt
+                                    ? `Published on ${convertToLocalDate(page.publishedAt)}`
+                                    : 'Not published yet'}
                             </div>
                         </div>
                     ))}
