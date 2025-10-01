@@ -18,11 +18,13 @@ class FundingPageFactory extends Factory
     public function definition(): array
     {
         return [
+            'uuid' => $this->faker->uuid,
             'user_id' => User::factory(),
             'title' => $this->faker->sentence,
             'description' => $this->faker->paragraph,
             'goal_amount' => $this->faker->numberBetween(1000, 10000),
             'current_amount' => $this->faker->numberBetween(0, int2: 999),
+            'published_at' => $this->faker->optional()->dateTimeThisYear(),
         ];
     }
 }

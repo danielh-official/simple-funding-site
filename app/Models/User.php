@@ -46,4 +46,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Get the funding pages for the user.
+     */
+    public function fundingPages()
+    {
+        return $this->hasMany(FundingPage::class);
+    }
 }

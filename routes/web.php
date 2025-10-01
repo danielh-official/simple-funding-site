@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\FundingPage;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -21,7 +22,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('dashboard')->name('dashboard.')->group(function () {
         Route::prefix('my-funding-pages')->name('my-funding-pages.')->group(function () {
             Route::get('/', function () {
-                return Inertia::render('dashboard/funding-pages/index');
+                // TODO: Use pagination and update frontend accordingly
+                if (config('app.use_live_data')) {
+                    $fundingPages = auth()->user()->fundingPages;
+                } else {
+                    $fundingPages = FundingPage::factory()->count(10)->make();
+                }
+
+                return Inertia::render('dashboard/funding-pages/index', compact('fundingPages'));
             })->name('index');
 
             Route::get('/create', function () {

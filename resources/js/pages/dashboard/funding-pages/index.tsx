@@ -3,6 +3,32 @@ import { create, edit, index, show } from '@/routes/dashboard/my-funding-pages';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 
+interface FundingPage {
+    uuid: string;
+    title: string;
+    description: string;
+    currency: string;
+    goal_amount?: number;
+    current_amount: number;
+    start_date: string;
+    end_date: string;
+    published_at?: {
+        date: string;
+        timezone_type: number;
+        timezone: string;
+    } | null;
+    created_at: {
+        date: string;
+        timezone_type: number;
+        timezone: string;
+    };
+    updated_at: {
+        date: string;
+        timezone_type: number;
+        timezone: string;
+    };
+}
+
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'My Funding Pages',
@@ -10,51 +36,11 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-// Sample static funding pages
-const sampleFundingPages = [
-    {
-        id: 1,
-        uuid: 'sample-uuid-1',
-        title: 'Help Build a Community Garden',
-        description:
-            'Raising funds to create a green space for our neighborhood.',
-        goalAmount: 2500,
-        currentAmount: 1200,
-        currency: 'USD',
-        startDate: '2025-09-01',
-        endDate: '2025-10-15',
-        publishedAt: '2025-09-01 10:00:00',
-    },
-    {
-        id: 2,
-        uuid: 'sample-uuid-2',
-        title: 'Support Local Animal Shelter',
-        description:
-            'Every dollar helps provide food and care for rescued pets.',
-        goalAmount: 5000,
-        currentAmount: 3400,
-        currency: 'USD',
-        startDate: '2025-08-20',
-        endDate: '2025-12-01',
-        publishedAt: '2025-09-01 10:00:00',
-    },
-    {
-        id: 3,
-        uuid: 'sample-uuid-3',
-        title: 'School Supplies for Kids',
-        description:
-            'Join us in making sure every child starts the year prepared.',
-        goalAmount: 1500,
-        currentAmount: 900,
-        currency: 'USD',
-        startDate: '2025-09-10',
-        endDate: '2025-10-05',
-        publishedAt: null,
-    },
-];
+function convertToLocalDate(dateString?: string) {
+    if (!dateString) return '';
 
-function convertToLocalDate(dateString: string) {
     const date = new Date(dateString);
+
     return date.toLocaleDateString(undefined, {
         year: 'numeric',
         month: 'short',
@@ -64,7 +50,11 @@ function convertToLocalDate(dateString: string) {
     });
 }
 
-export default function Index() {
+export default function Index({
+    fundingPages,
+}: {
+    fundingPages: FundingPage[];
+}) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="My Funding Pages" />
@@ -78,9 +68,9 @@ export default function Index() {
                     </Link>
                 </div>
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    {sampleFundingPages.map((page) => (
+                    {fundingPages.map((page) => (
                         <div
-                            key={page.id}
+                            key={page.uuid}
                             className="flex flex-col rounded-xl border border-sidebar-border/70 bg-white p-6 shadow-sm dark:border-sidebar-border dark:bg-[#161615]"
                         >
                             <h3 className="mb-2 text-lg font-bold text-[#f53003] dark:text-[#FF4433]">
@@ -93,19 +83,19 @@ export default function Index() {
                                 <span className="font-medium">Goal:</span>
                                 <span>
                                     {page.currency}{' '}
-                                    {page.goalAmount.toLocaleString()}
+                                    {page.goal_amount?.toLocaleString()}
                                 </span>
                             </div>
                             <div className="mb-2 flex items-center gap-2 text-sm">
                                 <span className="font-medium">Raised:</span>
                                 <span>
                                     {page.currency}{' '}
-                                    {page.currentAmount.toLocaleString()}
+                                    {page.current_amount.toLocaleString()}
                                 </span>
                             </div>
                             <div className="mb-4 flex items-center gap-2 text-xs text-muted-foreground">
                                 <span>
-                                    {page.startDate} &ndash; {page.endDate}
+                                    {page.start_date} &ndash; {page.end_date}
                                 </span>
                             </div>
                             <div className="flex gap-2">
@@ -123,8 +113,8 @@ export default function Index() {
                                 </Link>
                             </div>
                             <div className="mt-4 text-xs text-muted-foreground">
-                                {page.publishedAt
-                                    ? `Published on ${convertToLocalDate(page.publishedAt)}`
+                                {page.published_at
+                                    ? `Published on ${convertToLocalDate(page.published_at.date)}`
                                     : 'Not published yet'}
                             </div>
                         </div>

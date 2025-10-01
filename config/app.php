@@ -123,4 +123,5 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'use_live_data' => env('USE_LIVE_DATA', false),
 ];
