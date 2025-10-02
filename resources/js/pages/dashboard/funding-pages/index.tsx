@@ -3,7 +3,23 @@ import { create, edit, index, show } from '@/routes/dashboard/my-funding-pages';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 
-interface FundingPage {
+export interface FundingPageUpdate {
+    uuid: string;
+    title: string;
+    content: string;
+    created_at?: string;
+}
+
+export interface FundingPageDonation {
+    uuid: string;
+    amount: number;
+    donor_name?: string;
+    donor_email: string;
+    message?: string;
+    created_at?: string;
+}
+
+export interface FundingPage {
     uuid: string;
     title: string;
     description: string;
@@ -12,21 +28,31 @@ interface FundingPage {
     current_amount: number;
     start_date: string;
     end_date: string;
-    published_at?: {
-        date: string;
-        timezone_type: number;
-        timezone: string;
-    } | null;
-    created_at: {
-        date: string;
-        timezone_type: number;
-        timezone: string;
-    };
-    updated_at: {
-        date: string;
-        timezone_type: number;
-        timezone: string;
-    };
+    published_at?: string;
+    created_at?: string;
+    updated_at?: string;
+    updates: FundingPageUpdate[];
+    donations: FundingPageDonation[];
+}
+
+export interface PaginatedResponse<T> {
+    current_page: number;
+    data: T[];
+    first_page_url: string;
+    from: number;
+    last_page: number;
+    last_page_url: string;
+    links: {
+        url: string | null;
+        label: string;
+        active: boolean;
+    }[];
+    next_page_url: string | null;
+    path: string;
+    per_page: number;
+    prev_page_url: string | null;
+    to: number;
+    total: number;
 }
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -53,7 +79,7 @@ function convertToLocalDate(dateString?: string) {
 export default function Index({
     fundingPages,
 }: {
-    fundingPages: FundingPage[];
+    fundingPages: PaginatedResponse<FundingPage>;
 }) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -68,7 +94,7 @@ export default function Index({
                     </Link>
                 </div>
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    {fundingPages.map((page) => (
+                    {fundingPages.data.map((page) => (
                         <div
                             key={page.uuid}
                             className="flex flex-col rounded-xl border border-sidebar-border/70 bg-white p-6 shadow-sm dark:border-sidebar-border dark:bg-[#161615]"
@@ -114,7 +140,7 @@ export default function Index({
                             </div>
                             <div className="mt-4 text-xs text-muted-foreground">
                                 {page.published_at
-                                    ? `Published on ${convertToLocalDate(page.published_at.date)}`
+                                    ? `Published on ${convertToLocalDate(page.published_at)}`
                                     : 'Not published yet'}
                             </div>
                         </div>

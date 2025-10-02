@@ -46,7 +46,6 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
-            'useLiveData' => config('app.use_live_data'),
         ];
     }
 }

@@ -6,9 +6,9 @@ use App\Models\FundingPage;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\FundingPageUpdate>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\FundingPageDonation>
  */
-class FundingPageUpdateFactory extends Factory
+class FundingPageDonationFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -20,8 +20,10 @@ class FundingPageUpdateFactory extends Factory
         return [
             'uuid' => $this->faker->uuid,
             'funding_page_id' => FundingPage::factory(),
-            'title' => $this->faker->sentence,
-            'content' => $this->faker->paragraphs(3, true),
+            'amount' => $this->faker->numberBetween(10, 500),
+            'donor_name' => $this->faker->name,
+            'donor_email' => $this->faker->safeEmail,
+            'message' => $this->faker->optional()->sentence,
         ];
     }
 }

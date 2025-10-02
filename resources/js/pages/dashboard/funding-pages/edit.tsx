@@ -3,38 +3,26 @@ import { edit, index } from '@/routes/dashboard/my-funding-pages';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import { useState } from 'react';
+import { FundingPage } from '.';
 
-// Sample static funding page data
-const sampleFundingPage = {
-    uuid: 'sample-uuid-1',
-    title: 'Help Build a Community Garden',
-    description: 'Raising funds to create a green space for our neighborhood.',
-    goalAmount: 2500,
-    currentAmount: 1200,
-    currency: 'USD',
-    startDate: '2025-09-01',
-    endDate: '2025-10-15',
-    published: false,
-};
+export default function Edit({ fundingPage }: { fundingPage: FundingPage }) {
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: 'My Funding Pages', href: index().url },
+        {
+            title: fundingPage.title,
+            href: edit(fundingPage.uuid).url,
+        },
+    ];
 
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'My Funding Pages', href: index().url },
-    {
-        title: sampleFundingPage.title,
-        href: edit(sampleFundingPage.uuid).url,
-    },
-];
-
-export default function Edit() {
     // For now, use local state. Later, use Inertia form helpers.
     const [form, setForm] = useState({
-        title: sampleFundingPage.title,
-        description: sampleFundingPage.description,
-        goalAmount: sampleFundingPage.goalAmount,
-        currency: sampleFundingPage.currency,
-        startDate: sampleFundingPage.startDate,
-        endDate: sampleFundingPage.endDate,
-        published: sampleFundingPage.published,
+        title: fundingPage.title,
+        description: fundingPage.description,
+        goalAmount: fundingPage.goal_amount,
+        currency: fundingPage.currency,
+        startDate: fundingPage.start_date,
+        endDate: fundingPage.end_date,
+        published: fundingPage.published_at ? true : false,
     });
 
     function handleChange(

@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
-class FundingPageUpdate extends Model
+class FundingPageDonation extends Model
 {
-    /** @use HasFactory<\Database\Factories\FundingPageUpdateFactory> */
+    /** @use HasFactory<\Database\Factories\FundingPageDonationFactory> */
     use HasFactory, SoftDeletes;
 
     protected static function booted()

@@ -2,44 +2,16 @@ import AppLayout from '@/layouts/app-layout';
 import { index } from '@/routes/dashboard/my-funding-pages';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
+import { FundingPage } from '.';
 
-// For now, use static sample data. Later, load from props.
-const sampleFundingPage = {
-    id: 1,
-    title: 'Help Build a Community Garden',
-    description: 'Raising funds to create a green space for our neighborhood.',
-    goalAmount: 2500,
-    currentAmount: 1200,
-    currency: 'USD',
-    startDate: '2025-09-01',
-    endDate: '2025-10-15',
-    updates: [
-        {
-            id: 1,
-            date: '2025-09-20',
-            content:
-                'We have reached 50% of our goal! Thank you for your support.',
-        },
-        {
-            id: 2,
-            date: '2025-09-25',
-            content: 'Garden plans finalized. Construction starts next week.',
-        },
-    ],
-    donations: [
-        { id: 1, donor: 'Jane Doe', amount: 100, date: '2025-09-10' },
-        { id: 2, donor: 'John Smith', amount: 200, date: '2025-09-12' },
-    ],
-};
-
-const breadcrumbs: BreadcrumbItem[] = [
-    { title: 'My Funding Pages', href: index().url },
-    { title: sampleFundingPage.title, href: '#' },
-];
-
-export default function Show() {
+export default function Show({ fundingPage }: { fundingPage: FundingPage }) {
     // In future, get funding page data from props via usePage<SharedData>().props
-    const page = sampleFundingPage;
+    const page = fundingPage;
+
+    const breadcrumbs: BreadcrumbItem[] = [
+        { title: 'My Funding Pages', href: index().url },
+        { title: fundingPage.title, href: '#' },
+    ];
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -57,20 +29,20 @@ export default function Show() {
                             <span className="text-sm font-medium">Goal</span>
                             <span>
                                 {page.currency}{' '}
-                                {page.goalAmount.toLocaleString()}
+                                {page.goal_amount?.toLocaleString()}
                             </span>
                         </div>
                         <div className="flex flex-col">
                             <span className="text-sm font-medium">Raised</span>
                             <span>
                                 {page.currency}{' '}
-                                {page.currentAmount.toLocaleString()}
+                                {page.current_amount?.toLocaleString()}
                             </span>
                         </div>
                         <div className="flex flex-col">
                             <span className="text-sm font-medium">Dates</span>
                             <span>
-                                {page.startDate} &ndash; {page.endDate}
+                                {page.start_date} &ndash; {page.end_date}
                             </span>
                         </div>
                     </div>
@@ -83,11 +55,11 @@ export default function Show() {
                     <ul className="flex flex-col gap-2">
                         {page.updates.map((update) => (
                             <li
-                                key={update.id}
+                                key={update.uuid}
                                 className="rounded bg-[#fff2f2] p-3 dark:bg-[#1D0002]"
                             >
                                 <div className="mb-1 text-xs text-muted-foreground">
-                                    {update.date}
+                                    {update.created_at}
                                 </div>
                                 <div className="text-sm">{update.content}</div>
                             </li>
@@ -107,18 +79,18 @@ export default function Show() {
                     <ul className="flex flex-col gap-2">
                         {page.donations.map((donation) => (
                             <li
-                                key={donation.id}
+                                key={donation.uuid}
                                 className="flex items-center justify-between rounded bg-white p-3 shadow-sm dark:bg-[#161615]"
                             >
                                 <span className="font-medium">
-                                    {donation.donor}
+                                    {donation.donor_name || 'Anonymous'}
                                 </span>
                                 <span>
                                     {page.currency}{' '}
                                     {donation.amount.toLocaleString()}
                                 </span>
                                 <span className="text-xs text-muted-foreground">
-                                    {donation.date}
+                                    {donation.created_at}
                                 </span>
                             </li>
                         ))}

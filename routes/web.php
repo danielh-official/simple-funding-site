@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\FundingPageController;
 use App\Models\FundingPage;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -20,37 +22,23 @@ Route::redirect('/dashboard', '/dashboard/my-funding-pages');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('dashboard')->name('dashboard.')->group(function () {
+        Route::resource('my-funding-pages', FundingPageController::class)->except('destroy')->parameters([
+            'my-funding-pages' => 'fundingPage:uuid',
+        ]);
+
         Route::prefix('my-funding-pages')->name('my-funding-pages.')->group(function () {
-            Route::get('/', function () {
-                // TODO: Use pagination and update frontend accordingly
-                if (config('app.use_live_data')) {
-                    $fundingPages = auth()->user()->fundingPages;
-                } else {
-                    $fundingPages = FundingPage::factory()->count(10)->make();
-                }
-
-                return Inertia::render('dashboard/funding-pages/index', compact('fundingPages'));
-            })->name('index');
-
-            Route::get('/create', function () {
-                return Inertia::render('dashboard/funding-pages/create');
-            })->name('create');
-
-            Route::get('/{fundingPage}/edit', function () {
-                return Inertia::render('dashboard/funding-pages/edit');
-            })->name('edit');
-
             Route::post('/{fundingPage}/donate', function () {
                 // TODO: Logic to handle donation
             })->name('donate');
 
-            Route::post('/{fundingPage}/updates/post', function () {
+            Route::post('/{fundingPage}/updates/post', function (FundingPage $fundingPage, Request $request) {
                 // TODO: Logic to post a new update
-            })->name('updates.post');
+                $request->validate([
+                    'title' => 'required|string|max:255',
+                    'content' => 'required|string',
+                ]);
 
-            Route::get('/{fundingPage}', function () {
-                return Inertia::render('dashboard/funding-pages/show');
-            })->name('show');
+            })->name('updates.post');
         });
 
         Route::prefix('my-updates')->name('my-updates.')->group(function () {
