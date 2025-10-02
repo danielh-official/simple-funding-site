@@ -64,7 +64,8 @@ export default function Edit({ fundingPage }: { fundingPage: FundingPage }) {
                     className="flex flex-col gap-4"
                     transform={(data) => ({
                         ...data,
-                        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                        timezone:
+                            Intl.DateTimeFormat().resolvedOptions().timeZone,
                     })}
                 >
                     <div>

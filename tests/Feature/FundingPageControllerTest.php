@@ -74,6 +74,7 @@ describe('update', function () {
                 'start_date' => now()->toDateString(),
                 'end_date' => now()->addMonth()->toDateString(),
                 'published' => true,
+                'timezone' => 'UTC',
             ])
             ->assertRedirect(route('dashboard.my-funding-pages.index'))
             ->assertSessionHas('success', 'Funding page updated successfully.');
@@ -100,6 +101,7 @@ describe('update', function () {
                 'start_date' => now()->toDateString(),
                 'end_date' => now()->addMonth()->toDateString(),
                 'published' => true,
+                'timezone' => 'UTC',
             ])
             ->assertNotFound();
     });
@@ -115,6 +117,7 @@ describe('update', function () {
             'start_date' => now()->toDateString(),
             'end_date' => now()->addMonth()->toDateString(),
             'published' => true,
+            'timezone' => 'UTC',
         ])
             ->assertRedirect(route('login'));
     });
