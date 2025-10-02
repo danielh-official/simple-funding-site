@@ -1,7 +1,17 @@
+import { update } from '@/actions/App/Http/Controllers/FundingPageController';
+import {
+    Currency,
+    Description,
+    EndDate,
+    GoalAmount,
+    Published,
+    StartDate,
+    Title,
+} from '@/components/dashboard/funding-pages/form';
 import AppLayout from '@/layouts/app-layout';
 import { edit, index } from '@/routes/dashboard/my-funding-pages';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
+import { Form, Head, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { FundingPage } from '.';
 
@@ -14,14 +24,24 @@ export default function Edit({ fundingPage }: { fundingPage: FundingPage }) {
         },
     ];
 
+    const { errors } = usePage().props;
+
+    function convertToIsoDate(dateString: string): string {
+        return new Date(dateString).toISOString().split('T')[0];
+    }
+
     // For now, use local state. Later, use Inertia form helpers.
     const [form, setForm] = useState({
-        title: fundingPage.title,
-        description: fundingPage.description,
-        goalAmount: fundingPage.goal_amount,
-        currency: fundingPage.currency,
-        startDate: fundingPage.start_date,
-        endDate: fundingPage.end_date,
+        title: fundingPage.title || '',
+        description: fundingPage.description || '',
+        goal_amount: fundingPage.goal_amount || 0,
+        currency: fundingPage.currency || 'USD',
+        start_date: fundingPage.start_date
+            ? convertToIsoDate(fundingPage.start_date)
+            : '',
+        end_date: fundingPage.end_date
+            ? convertToIsoDate(fundingPage.end_date)
+            : '',
         published: fundingPage.published_at ? true : false,
     });
 
@@ -32,12 +52,6 @@ export default function Edit({ fundingPage }: { fundingPage: FundingPage }) {
         setForm((prev) => ({ ...prev, [name]: value }));
     }
 
-    function handleSubmit(e: React.FormEvent) {
-        e.preventDefault();
-        // TODO: Replace with Inertia form submission using Wayfinder action helper
-        alert('Funding page updated (stub)');
-    }
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={`Edit: ${form.title}`} />
@@ -45,140 +59,66 @@ export default function Edit({ fundingPage }: { fundingPage: FundingPage }) {
                 <h2 className="mb-6 text-xl font-bold text-[#f53003] dark:text-[#FF4433]">
                     Edit Funding Page
                 </h2>
-                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                <Form
+                    action={update(fundingPage.uuid)}
+                    className="flex flex-col gap-4"
+                    transform={(data) => ({
+                        ...data,
+                        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                    })}
+                >
                     <div>
-                        <label
-                            className="mb-1 block text-sm font-medium"
-                            htmlFor="title"
-                        >
-                            Title
-                        </label>
-                        <input
-                            id="title"
-                            name="title"
-                            type="text"
+                        <Title
                             value={form.title}
-                            onChange={handleChange}
-                            className="w-full rounded border px-3 py-2 text-sm"
-                            required
+                            error={errors.title}
+                            handleChange={handleChange}
                         />
                     </div>
                     <div>
-                        <label
-                            className="mb-1 block text-sm font-medium"
-                            htmlFor="description"
-                        >
-                            Description
-                        </label>
-                        <textarea
-                            id="description"
-                            name="description"
+                        <Description
                             value={form.description}
-                            onChange={handleChange}
-                            className="w-full rounded border px-3 py-2 text-sm"
-                            rows={3}
+                            error={errors.description}
+                            handleChange={handleChange}
                         />
                     </div>
                     <div className="flex gap-4">
-                        <div className="flex-1">
-                            <label
-                                className="mb-1 block text-sm font-medium"
-                                htmlFor="goalAmount"
-                            >
-                                Goal Amount
-                            </label>
-                            <input
-                                id="goalAmount"
-                                name="goalAmount"
-                                type="number"
-                                value={form.goalAmount}
-                                onChange={handleChange}
-                                className="w-full rounded border px-3 py-2 text-sm"
-                                min={0}
-                                required
-                            />
-                        </div>
-                        <div className="flex-1">
-                            <label
-                                className="mb-1 block text-sm font-medium"
-                                htmlFor="currency"
-                            >
-                                Currency
-                            </label>
-                            <input
-                                id="currency"
-                                name="currency"
-                                type="text"
-                                value={form.currency}
-                                onChange={handleChange}
-                                className="w-full rounded border px-3 py-2 text-sm"
-                                maxLength={3}
-                                required
-                            />
-                        </div>
+                        <GoalAmount
+                            value={form.goal_amount}
+                            error={errors.goal_amount}
+                            handleChange={handleChange}
+                        />
+                        <Currency
+                            value={form.currency}
+                            error={errors.currency}
+                            handleChange={handleChange}
+                        />
                     </div>
                     <div className="flex gap-4">
-                        <div className="flex-1">
-                            <label
-                                className="mb-1 block text-sm font-medium"
-                                htmlFor="startDate"
-                            >
-                                Start Date
-                            </label>
-                            <input
-                                id="startDate"
-                                name="startDate"
-                                type="date"
-                                value={form.startDate}
-                                onChange={handleChange}
-                                className="w-full rounded border px-3 py-2 text-sm"
-                            />
-                        </div>
-                        <div className="flex-1">
-                            <label
-                                className="mb-1 block text-sm font-medium"
-                                htmlFor="endDate"
-                            >
-                                End Date
-                            </label>
-                            <input
-                                id="endDate"
-                                name="endDate"
-                                type="date"
-                                value={form.endDate}
-                                onChange={handleChange}
-                                className="w-full rounded border px-3 py-2 text-sm"
-                            />
-                        </div>
-                        <div className="flex-1">
-                            <label
-                                className="mb-1 block text-sm font-medium"
-                                htmlFor="published"
-                            >
-                                Published
-                            </label>
-                            <input
-                                id="published"
-                                name="published"
-                                type="checkbox"
-                                checked={form.published}
-                                onChange={(e) =>
-                                    setForm((prev) => ({
-                                        ...prev,
-                                        published: e.target.checked,
-                                    }))
-                                }
-                                className="h-5 w-5 rounded border text-[#f53003] focus:ring-[#f53003] dark:border-gray-600 dark:bg-gray-700 dark:focus:ring-[#FF4433]"
-                            />
-                        </div>
+                        <StartDate
+                            value={form.start_date}
+                            error={errors.start_date}
+                            handleChange={handleChange}
+                        />
+                        <EndDate
+                            value={form.end_date}
+                            error={errors.end_date}
+                            handleChange={handleChange}
+                        />
+                    </div>
+                    <div className="flex gap-4">
+                        <Published
+                            value={form.published}
+                            error={errors.published}
+                            setForm={setForm}
+                        />
                     </div>
                     <button
                         type="submit"
-                        className="mt-4 rounded bg-[#f53003] px-5 py-2 text-sm font-semibold text-white shadow transition hover:bg-[#d82a00] dark:bg-[#FF4433] dark:text-[#1C1C1A] dark:hover:bg-[#d82a00]"
+                        className="mt-4 cursor-pointer rounded bg-[#f53003] px-5 py-2 text-sm font-semibold text-white shadow transition hover:bg-[#d82a00] dark:bg-[#FF4433] dark:text-[#1C1C1A] dark:hover:bg-[#d82a00]"
                     >
                         Save Changes
                     </button>
-                </form>
+                </Form>
             </div>
         </AppLayout>
     );

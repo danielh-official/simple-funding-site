@@ -26,8 +26,8 @@ export interface FundingPage {
     currency: string;
     goal_amount?: number;
     current_amount: number;
-    start_date: string;
-    end_date: string;
+    start_date?: string;
+    end_date?: string;
     published_at?: string;
     created_at?: string;
     updated_at?: string;
@@ -62,7 +62,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-function convertToLocalDate(dateString?: string) {
+function convertToLocalDateWithTime(dateString?: string) {
     if (!dateString) return '';
 
     const date = new Date(dateString);
@@ -73,6 +73,18 @@ function convertToLocalDate(dateString?: string) {
         day: 'numeric',
         hour: 'numeric',
         minute: '2-digit',
+    });
+}
+
+function convertToLocalDate(dateString?: string) {
+    if (!dateString) return '';
+
+    const date = new Date(dateString);
+
+    return date.toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
     });
 }
 
@@ -121,7 +133,11 @@ export default function Index({
                             </div>
                             <div className="mb-4 flex items-center gap-2 text-xs text-muted-foreground">
                                 <span>
-                                    {page.start_date} &ndash; {page.end_date}
+                                    {convertToLocalDate(page.start_date) ||
+                                        'No Start Date'}{' '}
+                                    &ndash;{' '}
+                                    {convertToLocalDate(page.end_date) ||
+                                        'Ongoing'}
                                 </span>
                             </div>
                             <div className="flex gap-2">
@@ -140,7 +156,7 @@ export default function Index({
                             </div>
                             <div className="mt-4 text-xs text-muted-foreground">
                                 {page.published_at
-                                    ? `Published on ${convertToLocalDate(page.published_at)}`
+                                    ? `Published on ${convertToLocalDateWithTime(page.published_at)}`
                                     : 'Not published yet'}
                             </div>
                         </div>

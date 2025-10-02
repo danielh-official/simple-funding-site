@@ -19,8 +19,8 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->decimal('goal_amount', 15, 2);
             $table->decimal('current_amount', 15, 2)->comment('This amount must be updated as donation events occur')->default(0);
-            $table->date('start_date')->nullable();
-            $table->date('end_date')->nullable();
+            $table->dateTime('start_date')->nullable();
+            $table->dateTime('end_date')->nullable();
             $table->string('currency', 3)->default('USD');
             $table->dateTime('published_at')->nullable();
             $table->softDeletes();
