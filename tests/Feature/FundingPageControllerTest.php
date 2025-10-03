@@ -11,6 +11,9 @@ use function Pest\Laravel\get;
 use function Pest\Laravel\post;
 use function Pest\Laravel\put;
 
+/**
+ * @see\App\Http\Controllers\FundingPageController
+ */
 describe('show', function () {
     it('can show a funding page', function () {
         $fundingPage = FundingPage::factory()->create();
@@ -161,6 +164,7 @@ describe('store', function () {
                 'start_date' => now()->toDateString(),
                 'end_date' => now()->addMonth()->toDateString(),
                 'published' => true,
+                'timezone' => 'UTC',
             ])
             ->assertRedirect(route('dashboard.my-funding-pages.index'))
             ->assertSessionHas('success', 'Funding page created successfully.');
@@ -184,6 +188,7 @@ describe('store', function () {
             'start_date' => now()->toDateString(),
             'end_date' => now()->addMonth()->toDateString(),
             'published' => true,
+            'timezone' => 'UTC',
         ])
             ->assertRedirect(route('login'));
     });
