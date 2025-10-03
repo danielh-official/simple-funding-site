@@ -12,8 +12,12 @@ import {
 import { index } from '@/routes/dashboard/my-funding-pages';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { LayoutGrid } from 'lucide-react';
+import { ArrowBigLeftIcon, ArrowUpCircle, CircleDollarSign, LayoutGrid } from 'lucide-react';
 import AppLogo from './app-logo';
+import { NavFooter } from './nav-footer';
+import { home } from '@/routes';
+import { index as myUpdates } from '@/routes/dashboard/my-updates';
+import { index as myDonations } from '@/routes/dashboard/my-donations';
 
 const mainNavItems: NavItem[] = [
     {
@@ -21,31 +25,27 @@ const mainNavItems: NavItem[] = [
         href: index(),
         icon: LayoutGrid,
     },
-    // TODO: Re-add when we have these pages
-    // {
-    //     title: 'My Updates',
-    //     href: myUpdates(),
-    //     icon: LayoutGrid,
-    // },
-    // {
-    //     title: 'My Donations',
-    //     href: myDonations(),
-    //     icon: LayoutGrid,
-    // }
+    // TODO: Finish initial setup on these pages
+    {
+        title: 'My Updates',
+        href: myUpdates(),
+        icon: ArrowUpCircle,
+    },
+    {
+        title: 'My Donations',
+        href: myDonations(),
+        icon: CircleDollarSign,
+    }
 ];
 
-// const footerNavItems: NavItem[] = [
-//     {
-//         title: 'Repository',
-//         href: 'https://github.com/laravel/react-starter-kit',
-//         icon: Folder,
-//     },
-//     {
-//         title: 'Documentation',
-//         href: 'https://laravel.com/docs/starter-kits#react',
-//         icon: BookOpen,
-//     },
-// ];
+const footerNavItems: NavItem[] = [
+    {
+        title: 'Return to Site',
+        href: home().url,
+        // Should be a back arrow icon
+        icon: ArrowBigLeftIcon,
+    },
+];
 
 export function AppSidebar() {
     return (
@@ -67,7 +67,7 @@ export function AppSidebar() {
             </SidebarContent>
 
             <SidebarFooter>
-                {/* <NavFooter items={footerNavItems} className="mt-auto" /> */}
+                <NavFooter items={footerNavItems} className="mt-auto" />
                 <NavUser />
             </SidebarFooter>
         </Sidebar>
