@@ -1,6 +1,6 @@
 # Simple Funding Site
 
-Why? This repository exists to showcase my Laravel and React skills.
+Why? This repository exists to showcase my Laravel and React skills. I have no intention of making a product out of this.
 
 ## How It Should Work
 
