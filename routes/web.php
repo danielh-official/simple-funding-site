@@ -27,9 +27,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ]);
 
         Route::prefix('my-funding-pages')->name('my-funding-pages.')->group(function () {
-            Route::post('/{fundingPage}/donate', function () {
-                // TODO: Logic to handle donation
-            })->name('donate');
+            // TODO: funding page donation should be a public route accessible to all users (even unauthenticated)
+            // Route::post('/{fundingPage}/donate', function () {
+            //     // TODO: Logic to handle donation
+            // })->name('donate');
 
             Route::post('/{fundingPage}/updates/post', function (FundingPage $fundingPage, Request $request) {
                 // TODO: Logic to post a new update
