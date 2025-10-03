@@ -1,37 +1,25 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dashboard;
 
+use App\Http\Controllers\Controller;
 use App\Models\FundingPage;
-use Illuminate\Contracts\Auth\Factory;
-use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Inertia\Inertia;
 
 class FundingPageController extends Controller
 {
-    protected Factory|Guard|null $auth;
-
-    public function __construct()
+    public function index(Request $request)
     {
-        if (auth() === null) {
-            abort(500, 'Must be authenticated to access.');
-        }
-
-        $this->auth = auth();
-    }
-
-    public function index()
-    {
-        $fundingPages = FundingPage::where('user_id', $this->auth->id())->with('updates')->paginate();
+        $fundingPages = FundingPage::where('user_id', $request->user()->id)->with('updates')->paginate();
 
         return Inertia::render('dashboard/funding-pages/index', compact('fundingPages'));
     }
 
-    public function show(FundingPage $fundingPage)
+    public function show(Request $request, FundingPage $fundingPage)
     {
-        if ($fundingPage->user_id !== $this->auth->id()) {
+        if ($request->user()->cannot('view', $fundingPage)) {
             abort(404, 'Funding page not found.');
         }
 
@@ -72,7 +60,7 @@ class FundingPageController extends Controller
             : null;
 
         FundingPage::create([
-            'user_id' => $this->auth->id(),
+            'user_id' => $request->user()->id,
             'title' => $request->input('title'),
             'description' => $request->input('description'),
             'goal_amount' => $request->input('goal_amount'),
@@ -85,18 +73,18 @@ class FundingPageController extends Controller
             ->with('success', 'Funding page created successfully.');
     }
 
-    public function edit(FundingPage $fundingPage)
+    public function edit(Request $request, FundingPage $fundingPage)
     {
-        if ($fundingPage->user_id !== $this->auth->id()) {
+        if ($fundingPage->user_id !== $request->user()->id) {
             abort(404, 'Funding page not found.');
         }
 
         return Inertia::render('dashboard/funding-pages/edit', compact('fundingPage'));
     }
 
-    public function update(FundingPage $fundingPage, Request $request)
+    public function update(Request $request, FundingPage $fundingPage)
     {
-        if ($fundingPage->user_id !== $this->auth->id()) {
+        if ($fundingPage->user_id !== $request->user()->id) {
             abort(404, 'Funding page not found.');
         }
 

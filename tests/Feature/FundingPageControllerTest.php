@@ -14,6 +14,32 @@ use function Pest\Laravel\put;
 /**
  * @see\App\Http\Controllers\FundingPageController
  */
+describe('index', function () {
+    it('can list funding pages for the authenticated user', function () {
+        /**
+         * @var \App\Models\User|Authenticatable
+         */
+        $user = User::factory()->create();
+
+        // Create some funding pages for the user
+        FundingPage::factory()->count(3)->for($user)->create();
+
+        // Simulate a GET request to the controller
+        actingAs($user)
+            ->get(route('dashboard.my-funding-pages.index'))
+            ->assertOk()
+            ->assertInertia(fn ($page) => $page
+                ->component('dashboard/funding-pages/index')
+                ->has('fundingPages.data', 3) // Assuming pagination
+            );
+    });
+
+    it('cannot list funding pages when not authenticated', function () {
+        get(route('dashboard.my-funding-pages.index'))
+            ->assertRedirect(route('login'));
+    });
+});
+
 describe('show', function () {
     it('can show a funding page', function () {
         $fundingPage = FundingPage::factory()->create();

@@ -1,7 +1,11 @@
+import { destroy } from '@/actions/App/Http/Controllers/Dashboard/FundingPage/FundingPageUpdateController';
+import PostUpdateModal from '@/components/dashboard/funding-pages/my-updates/post-modal';
+import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { index } from '@/routes/dashboard/my-funding-pages';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
+import { Form, Head } from '@inertiajs/react';
+import { useState } from 'react';
 import { FundingPage } from '.';
 
 export default function Show({ fundingPage }: { fundingPage: FundingPage }) {
@@ -12,6 +16,19 @@ export default function Show({ fundingPage }: { fundingPage: FundingPage }) {
         { title: 'My Funding Pages', href: index().url },
         { title: fundingPage.title, href: '#' },
     ];
+
+    const [showUpdateModal, setShowPostUpdateModal] = useState<boolean>(false);
+
+    function convertToLocalDateTime(dateString: string) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString(undefined, {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+        });
+    }
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -49,19 +66,69 @@ export default function Show({ fundingPage }: { fundingPage: FundingPage }) {
                 </div>
 
                 <div className="flex flex-col gap-4">
-                    <h3 className="text-lg font-semibold text-[#1b1b18] dark:text-[#EDEDEC]">
-                        Updates
-                    </h3>
+                    <div className="flex items-center justify-between">
+                        <h3 className="text-lg font-semibold text-[#1b1b18] dark:text-[#EDEDEC]">
+                            Updates
+                        </h3>
+
+                        {/* Add an "Post Update" button to the end of the page, next to the title - should open a modal that has the form to post an update*/}
+
+                        <Button
+                            className="cursor-pointer bg-[#f53003] hover:bg-[#d82a00] dark:bg-[#FF4433] dark:hover:bg-[#d82a00]"
+                            onClick={() => setShowPostUpdateModal(true)}
+                        >
+                            Post Update
+                        </Button>
+
+                        <PostUpdateModal
+                            fundingPage={fundingPage}
+                            isOpen={showUpdateModal}
+                            onClose={() => setShowPostUpdateModal(false)}
+                        />
+                    </div>
                     <ul className="flex flex-col gap-2">
                         {page.updates.map((update) => (
                             <li
                                 key={update.uuid}
                                 className="rounded bg-[#fff2f2] p-3 dark:bg-[#1D0002]"
                             >
-                                <div className="mb-1 text-xs text-muted-foreground">
-                                    {update.created_at}
+                                <div className="flex flex-col md:flex-row md:justify-between">
+                                    <div>
+                                        <div className="mb-1 text-xs text-muted-foreground">
+                                            {update.title} &bull;{' '}
+                                            {update.created_at
+                                                ? convertToLocalDateTime(
+                                                      update.created_at,
+                                                  )
+                                                : 'N/A'}
+                                        </div>
+                                        <div className="text-sm">
+                                            {update.content}
+                                        </div>
+                                    </div>
+                                    {/* 
+                                    Add a delete button to each update that allows the user to delete the update
+                                */}
+                                    <div>
+                                        <Form action={destroy(update.uuid)}>
+                                            <Button
+                                                type="submit"
+                                                className="mt-2 cursor-pointer text-xs text-red-600 dark:text-red-400"
+                                                onClick={(e) => {
+                                                    if (
+                                                        !confirm(
+                                                            'Are you sure you want to delete this update? This action cannot be undone.',
+                                                        )
+                                                    ) {
+                                                        e.preventDefault();
+                                                    }
+                                                }}
+                                            >
+                                                Delete
+                                            </Button>
+                                        </Form>
+                                    </div>
                                 </div>
-                                <div className="text-sm">{update.content}</div>
                             </li>
                         ))}
                         {page.updates.length === 0 && (

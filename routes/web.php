@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\FundingPageController;
-use App\Models\FundingPage;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Dashboard\FundingPage\FundingPageUpdateController as FundingPageShowFundingPageUpdateController;
+use App\Http\Controllers\Dashboard\FundingPageController;
+use App\Http\Controllers\Dashboard\FundingPageDonationController;
+use App\Http\Controllers\Dashboard\FundingPageUpdateController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -26,45 +27,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
             'my-funding-pages' => 'fundingPage:uuid',
         ]);
 
-        Route::prefix('my-funding-pages')->name('my-funding-pages.')->group(function () {
-            // TODO: funding page donation should be a public route accessible to all users (even unauthenticated)
-            // Route::post('/{fundingPage}/donate', function () {
-            //     // TODO: Logic to handle donation
-            // })->name('donate');
-
-            Route::post('/{fundingPage}/updates/post', function (FundingPage $fundingPage, Request $request) {
-                // TODO: Logic to post a new update
-                $request->validate([
-                    'title' => 'required|string|max:255',
-                    'content' => 'required|string',
-                ]);
-
-            })->name('updates.post');
+        Route::prefix('/my-funding-pages')->name('my-funding-pages.')->group(function () {
+            Route::resource('my-updates', FundingPageShowFundingPageUpdateController::class)->parameters([
+                'my-updates' => 'fundingPageUpdate:uuid',
+            ])->only(['store', 'destroy']);
         });
 
-        Route::prefix('my-updates')->name('my-updates.')->group(function () {
-            Route::get('/', function () {
-                return Inertia::render('dashboard/updates/index');
-            })->name('index');
+        Route::resource('my-updates', FundingPageUpdateController::class)
+            ->parameters([
+                'my-updates' => 'fundingPageUpdate',
+            ])->only(['index', 'destroy']);
 
-            Route::get('/create', function () {
-                return Inertia::render('dashboard/updates/create');
-            })->name('create');
-
-            Route::post('/create', function () {
-                // TODO: Logic to store the new funding page update
-            })->name('store');
-
-            Route::delete('/{fundingPageUpdate}', function () {
-                // TODO: Logic to delete the funding page update
-            })->name('delete');
-        });
-
-        Route::prefix('/my-donations')->name('my-donations.')->group(function () {
-            Route::get('/', function () {
-                return Inertia::render('dashboard/donations/index');
-            })->name('index');
-        });
+        Route::resource('my-donations', controller: FundingPageDonationController::class)
+            ->parameters([
+                'my-donations' => 'donation',
+            ])
+            ->only(['index']);
     });
 });
 

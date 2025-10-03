@@ -1,4 +1,4 @@
-import { store } from '@/actions/App/Http/Controllers/FundingPageController';
+import { store } from '@/actions/App/Http/Controllers/Dashboard/FundingPageController';
 import {
     Currency,
     Description,

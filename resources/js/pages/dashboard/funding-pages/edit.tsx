@@ -1,4 +1,4 @@
-import { update } from '@/actions/App/Http/Controllers/FundingPageController';
+import { update } from '@/actions/App/Http/Controllers/Dashboard/FundingPageController';
 import {
     Currency,
     Description,
