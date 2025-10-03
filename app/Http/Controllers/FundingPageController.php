@@ -98,14 +98,17 @@ class FundingPageController extends Controller
             'timezone' => 'required|string',
         ]);
 
-        // TODO: Make sure that start date and end date are saved correctly with timezone consideration
-        // Right now, if I save the start date with 2025-10-01, it saves as 2025-10-01 00:00:00 in the database, which is incorrect, because it should consider the timezone offset.
-        // For example, if I'm in New York (UTC-4), and I set the start date to 2025-10-01, it should save as 2025-10-01 04:00:00 in the database.
-
-        $start_date = Carbon::parse($request->input('start_date'), $request->input('timezone'));
+        $start_date = Carbon::parse(
+            $request->input('start_date'),
+            $request->input('timezone')
+        )->setTime(0, 0, 0)->setTimezone('UTC');
 
         $end_date = $request->input('end_date')
-            ? Carbon::parse($request->input('end_date'), $request->input('timezone'))
+            ? Carbon::parse(
+                $request->input('end_date'),
+                $request->input('timezone')
+            )
+                ->setTime(0, 0, 0)->setTimezone('UTC')
             : null;
 
         $fundingPage->update([
