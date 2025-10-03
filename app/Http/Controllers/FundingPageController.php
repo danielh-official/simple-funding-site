@@ -55,7 +55,21 @@ class FundingPageController extends Controller
             'start_date' => 'required|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
             'published' => 'sometimes|boolean',
+            'timezone' => 'required|string',
         ]);
+
+        $start_date = Carbon::parse(
+            $request->input('start_date'),
+            $request->input('timezone')
+        )->setTime(0, 0, 0)->setTimezone('UTC');
+
+        $end_date = $request->input('end_date')
+            ? Carbon::parse(
+                $request->input('end_date'),
+                $request->input('timezone')
+            )
+                ->setTime(0, 0, 0)->setTimezone('UTC')
+            : null;
 
         FundingPage::create([
             'user_id' => $this->auth->id(),
@@ -63,9 +77,8 @@ class FundingPageController extends Controller
             'description' => $request->input('description'),
             'goal_amount' => $request->input('goal_amount'),
             'currency' => strtoupper($request->input('currency')),
-            'start_date' => $request->input('start_date'),
-            'end_date' => $request->input('end_date'),
             'published_at' => $request->boolean('published') ? now() : null,
+            ...compact('start_date', 'end_date'),
         ]);
 
         return to_route('dashboard.my-funding-pages.index')

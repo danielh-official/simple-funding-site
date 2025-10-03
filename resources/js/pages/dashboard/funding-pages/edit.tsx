@@ -4,6 +4,8 @@ import {
     Description,
     EndDate,
     GoalAmount,
+    handleCheckboxValueChange,
+    handleValueChange,
     Published,
     StartDate,
     Title,
@@ -45,13 +47,6 @@ export default function Edit({ fundingPage }: { fundingPage: FundingPage }) {
         published: fundingPage.published_at ? true : false,
     });
 
-    function handleChange(
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    ) {
-        const { name, value } = e.target;
-        setForm((prev) => ({ ...prev, [name]: value }));
-    }
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={`Edit: ${form.title}`} />
@@ -66,52 +61,68 @@ export default function Edit({ fundingPage }: { fundingPage: FundingPage }) {
                         ...data,
                         timezone:
                             Intl.DateTimeFormat().resolvedOptions().timeZone,
+                        published: form.published,
                     })}
                 >
                     <div>
                         <Title
                             value={form.title}
                             error={errors.title}
-                            handleChange={handleChange}
+                            handleChange={(e) => handleValueChange(e, setForm)}
                         />
                     </div>
                     <div>
                         <Description
                             value={form.description}
                             error={errors.description}
-                            handleChange={handleChange}
+                            handleChange={(e) => handleValueChange(e, setForm)}
                         />
                     </div>
                     <div className="flex gap-4">
                         <GoalAmount
                             value={form.goal_amount}
                             error={errors.goal_amount}
-                            handleChange={handleChange}
+                            handleChange={(e) => handleValueChange(e, setForm)}
                         />
                         <Currency
                             value={form.currency}
                             error={errors.currency}
-                            handleChange={handleChange}
+                            handleChange={(e) => handleValueChange(e, setForm)}
                         />
                     </div>
                     <div className="flex gap-4">
                         <StartDate
                             value={form.start_date}
                             error={errors.start_date}
-                            handleChange={handleChange}
+                            handleChange={(e) => handleValueChange(e, setForm)}
                         />
                         <EndDate
                             value={form.end_date}
                             error={errors.end_date}
-                            handleChange={handleChange}
+                            handleChange={(e) => handleValueChange(e, setForm)}
                         />
                     </div>
                     <div className="flex gap-4">
                         <Published
                             value={form.published}
                             error={errors.published}
-                            setForm={setForm}
+                            handleChange={(e) =>
+                                handleCheckboxValueChange(e, setForm)
+                            }
                         />
+                        {/* Read only information for published date */}
+                        {fundingPage.published_at && (
+                            <div className="self-center text-sm text-gray-600 dark:text-gray-400">
+                                Published on:{' '}
+                                {new Date(
+                                    fundingPage.published_at,
+                                ).toLocaleDateString(undefined, {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric',
+                                })}
+                            </div>
+                        )}
                     </div>
                     <button
                         type="submit"

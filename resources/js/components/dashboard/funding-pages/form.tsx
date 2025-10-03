@@ -1,5 +1,25 @@
 import InputError from '@/components/input-error';
 
+export function handleValueChange(
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    setForm: React.Dispatch<React.SetStateAction<any>>,
+) {
+    const { name, value } = e.target;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    setForm((prev: any) => ({ ...prev, [name]: value }));
+}
+
+export function handleCheckboxValueChange(
+    e: React.ChangeEvent<HTMLInputElement>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    setForm: React.Dispatch<React.SetStateAction<any>>,
+) {
+    const { name, checked } = e.target;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    setForm((prev: any) => ({ ...prev, [name]: checked }));
+}
+
 export function Title({
     value,
     error,
@@ -191,13 +211,11 @@ export function EndDate({
 export function Published({
     value,
     error,
-    setForm,
+    handleChange,
 }: {
     value: boolean;
     error: string | undefined;
-    // Ignore eslint warning about 'any' here
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    setForm: (prev: any) => void;
+    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) {
     return (
         <div className="flex-1">
@@ -212,14 +230,7 @@ export function Published({
                 name="published"
                 type="checkbox"
                 checked={value}
-                onChange={(e) =>
-                    // Ignore eslint warning about 'any' here
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    setForm((prev: any) => ({
-                        ...prev,
-                        published: e.target.checked,
-                    }))
-                }
+                onChange={handleChange}
                 className="h-5 w-5 rounded border text-[#f53003] focus:ring-[#f53003] dark:border-gray-600 dark:bg-gray-700 dark:focus:ring-[#FF4433]"
             />
             {/* Show error message from request if published is invalid */}

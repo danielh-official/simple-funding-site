@@ -1,18 +1,20 @@
+import { store } from '@/actions/App/Http/Controllers/FundingPageController';
+import {
+    Currency,
+    Description,
+    EndDate,
+    GoalAmount,
+    handleCheckboxValueChange,
+    handleValueChange,
+    Published,
+    StartDate,
+    Title,
+} from '@/components/dashboard/funding-pages/form';
 import AppLayout from '@/layouts/app-layout';
 import { create, index } from '@/routes/dashboard/my-funding-pages';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link } from '@inertiajs/react';
+import { Form, Head, Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
-
-// Local InputError component
-function InputError({ message }: { message?: string }) {
-    if (!message) return null;
-    return (
-        <div className="mt-1 text-xs text-red-600 dark:text-red-400">
-            {message}
-        </div>
-    );
-}
 
 const breadcrumbs: BreadcrumbItem[] = [
     { title: 'My Funding Pages', href: index().url },
@@ -23,50 +25,15 @@ export default function Create() {
     const [form, setForm] = useState({
         title: '',
         description: '',
-        goalAmount: '',
+        goal_amount: 0,
         currency: '',
-        startDate: '',
-        endDate: '',
+        start_date: '',
+        end_date: '',
         published: false,
     });
 
-    const [errors, setErrors] = useState<{ [key: string]: string }>({});
-    const [processing, setProcessing] = useState(false);
-
-    function handleChange(
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    ) {
-        const { name, value } = e.target;
-        setForm((prev) => ({ ...prev, [name]: value }));
-    }
-
-    function handleSubmit(e: React.FormEvent) {
-        e.preventDefault();
-        setProcessing(true);
-
-        // Simple static validation
-        const newErrors: { [key: string]: string } = {};
-        if (!form.title) newErrors.title = 'Title is required.';
-        if (!form.goalAmount || Number(form.goalAmount) <= 0)
-            newErrors.goalAmount = 'Goal amount must be greater than 0.';
-        if (!form.currency) newErrors.currency = 'Currency is required.';
-
-        setErrors(newErrors);
-        setProcessing(false);
-
-        if (Object.keys(newErrors).length === 0) {
-            alert('Funding page created (stub)');
-            setForm({
-                title: '',
-                description: '',
-                goalAmount: '',
-                currency: '',
-                startDate: '',
-                endDate: '',
-                published: false,
-            });
-        }
-    }
+    const { errors } = usePage().props;
+    const [processing] = useState(false);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -75,138 +42,61 @@ export default function Create() {
                 <h2 className="mb-6 text-xl font-bold text-[#f53003] dark:text-[#FF4433]">
                     Create Funding Page
                 </h2>
-                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                <Form
+                    action={store()}
+                    className="flex flex-col gap-4"
+                    transform={(data) => ({
+                        ...data,
+                        timezone:
+                            Intl.DateTimeFormat().resolvedOptions().timeZone,
+                        published: form.published,
+                    })}
+                >
                     <div>
-                        <label
-                            className="mb-1 block text-sm font-medium"
-                            htmlFor="title"
-                        >
-                            Title
-                        </label>
-                        <input
-                            id="title"
-                            name="title"
-                            type="text"
+                        <Title
                             value={form.title}
-                            onChange={handleChange}
-                            className="w-full rounded border px-3 py-2 text-sm"
-                            required
+                            error={errors.title}
+                            handleChange={(e) => handleValueChange(e, setForm)}
                         />
-                        <InputError message={errors.title} />
                     </div>
                     <div>
-                        <label
-                            className="mb-1 block text-sm font-medium"
-                            htmlFor="description"
-                        >
-                            Description
-                        </label>
-                        <textarea
-                            id="description"
-                            name="description"
+                        <Description
                             value={form.description}
-                            onChange={handleChange}
-                            className="w-full rounded border px-3 py-2 text-sm"
-                            rows={3}
+                            error={errors.description}
+                            handleChange={(e) => handleValueChange(e, setForm)}
                         />
-                        <InputError message={errors.description} />
                     </div>
                     <div className="flex gap-4">
-                        <div className="flex-1">
-                            <label
-                                className="mb-1 block text-sm font-medium"
-                                htmlFor="goalAmount"
-                            >
-                                Goal Amount
-                            </label>
-                            <input
-                                id="goalAmount"
-                                name="goalAmount"
-                                type="number"
-                                value={form.goalAmount}
-                                onChange={handleChange}
-                                className="w-full rounded border px-3 py-2 text-sm"
-                                min={0}
-                                required
-                            />
-                            <InputError message={errors.goalAmount} />
-                        </div>
-                        <div className="flex-1">
-                            <label
-                                className="mb-1 block text-sm font-medium"
-                                htmlFor="currency"
-                            >
-                                Currency
-                            </label>
-                            <input
-                                id="currency"
-                                name="currency"
-                                type="text"
-                                value={form.currency}
-                                onChange={handleChange}
-                                className="w-full rounded border px-3 py-2 text-sm"
-                                maxLength={3}
-                                required
-                            />
-                            <InputError message={errors.currency} />
-                        </div>
+                        <GoalAmount
+                            value={form.goal_amount}
+                            error={errors.goal_amount}
+                            handleChange={(e) => handleValueChange(e, setForm)}
+                        />
+                        <Currency
+                            value={form.currency}
+                            error={errors.currency}
+                            handleChange={(e) => handleValueChange(e, setForm)}
+                        />
                     </div>
                     <div className="flex gap-4">
+                        <StartDate
+                            value={form.start_date}
+                            error={errors.start_date}
+                            handleChange={(e) => handleValueChange(e, setForm)}
+                        />
+                        <EndDate
+                            value={form.end_date}
+                            error={errors.end_date}
+                            handleChange={(e) => handleValueChange(e, setForm)}
+                        />
                         <div className="flex-1">
-                            <label
-                                className="mb-1 block text-sm font-medium"
-                                htmlFor="startDate"
-                            >
-                                Start Date
-                            </label>
-                            <input
-                                id="startDate"
-                                name="startDate"
-                                type="date"
-                                value={form.startDate}
-                                onChange={handleChange}
-                                className="w-full rounded border px-3 py-2 text-sm"
-                            />
-                            <InputError message={errors.startDate} />
-                        </div>
-                        <div className="flex-1">
-                            <label
-                                className="mb-1 block text-sm font-medium"
-                                htmlFor="endDate"
-                            >
-                                End Date
-                            </label>
-                            <input
-                                id="endDate"
-                                name="endDate"
-                                type="date"
-                                value={form.endDate}
-                                onChange={handleChange}
-                                className="w-full rounded border px-3 py-2 text-sm"
-                            />
-                            <InputError message={errors.endDate} />
-                        </div>
-                        <div className="flex-1">
-                            <label
-                                className="mb-1 block text-sm font-medium"
-                                htmlFor="published"
-                            >
-                                Published
-                            </label>
-                            <input
-                                id="published"
-                                name="published"
-                                type="checkbox"
-                                checked={form.published}
-                                onChange={(e) =>
-                                    setForm((prev) => ({
-                                        ...prev,
-                                        published: e.target.checked,
-                                    }))
+                            <Published
+                                value={form.published}
+                                error={errors.published}
+                                handleChange={(e) =>
+                                    handleCheckboxValueChange(e, setForm)
                                 }
-                                className="h-5 w-5 rounded border text-[#f53003] focus:ring-[#f53003] dark:border-gray-600 dark:bg-gray-700 dark:focus:ring-[#FF4433]"
                             />
-                            <InputError message={errors.published} />
                         </div>
                     </div>
                     <div className="flex items-center justify-end gap-2">
@@ -219,12 +109,12 @@ export default function Create() {
                         <button
                             type="submit"
                             disabled={processing}
-                            className="mt-4 rounded bg-[#f53003] px-5 py-2 text-sm font-semibold text-white shadow transition hover:bg-[#d82a00] disabled:opacity-60 dark:bg-[#FF4433] dark:text-[#1C1C1A] dark:hover:bg-[#d82a00]"
+                            className="mt-4 cursor-pointer rounded bg-[#f53003] px-5 py-2 text-sm font-semibold text-white shadow transition hover:bg-[#d82a00] disabled:cursor-not-allowed disabled:opacity-60 dark:bg-[#FF4433] dark:text-[#1C1C1A] dark:hover:bg-[#d82a00]"
                         >
                             Create Funding Page
                         </button>
                     </div>
-                </form>
+                </Form>
             </div>
         </AppLayout>
     );
