@@ -33,14 +33,15 @@ Why? This repository exists to showcase my Laravel and React skills.
     - GROUP Funding Pages: /my-funding-pages
         - GET /
         - GET /create
+        - POST /
         - GET {fundingPage}/edit
-        - GET {fundingPage}/show
-        - POST /{fundingPage}/donate
-        - POST /{fundingPage}/update
+        - PUT /{fundingPage}
+        - GET /{fundingPage}
+        - GROUP My Updates: /my-updates
+            - POST /
+            - DELETE /{fundingPageUpdate}
     - GROUP Updates: /my-updates
         - GET /
-        - GET /create
-        - POST /create
         - DELETE /{fundingPageUpdate}
     - GROUP Donations: /my-donations
         - GET /
@@ -52,9 +53,20 @@ Why? This repository exists to showcase my Laravel and React skills.
 ## TODO
 
 - [x] Static pages
-- [ ] Use Dynamic Data
+- [x] Use Dynamic Data
 - [ ] Dashboard
+    - [ ] My Funding Pages
+        - [ ] Add pagination to funding pages
+    - [ ] Funding Page Show
+        - [ ] Add pagination to funding page updates
+        - [ ] Add pagination to funding page donations
+    - [ ] My Funding Page Updates
+    - [ ] My Donations
 - [ ] REST API
-- [ ] Export
-- [ ] Show Public Funding Pages on Home
-- [ ] Have Static Version on GitHub Pages
+- [ ] Export donation CSV
+- [ ] Visiting users (guests)
+    - [ ] Show Public Funding Pages on Home
+    - [ ] Allow donations for both authenticated and guest users
+    - [ ] Authenticated users have their name and email filled in by default but can still enter custom
+    - [ ] User has the option of having their donation be public or anonymous
+    - [ ] User can leave a message with their donation
