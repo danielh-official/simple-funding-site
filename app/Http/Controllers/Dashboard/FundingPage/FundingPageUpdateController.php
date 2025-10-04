@@ -31,6 +31,8 @@ class FundingPageUpdateController extends Controller
             'content' => $request->input('content'),
         ]);
 
+        // TODO: Create an event/listener for this, where the listener will notify the subscribers
+
         return to_route('dashboard.my-funding-pages.show', $fundingPage);
     }
 

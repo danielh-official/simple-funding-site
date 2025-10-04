@@ -62,12 +62,13 @@ Why? This repository exists to showcase my Laravel and React skills. I have no i
         - [x] Add pagination to funding page donations
     - [x] My Updates
     - [x] My Donations
-- [ ] REST API
-- [ ] Export donation CSV
 - [ ] Visiting users (guests)
     - [ ] Show Public Funding Pages on Home
     - [ ] Allow donations for both authenticated and guest users
     - [ ] Authenticated users have their name and email filled in by default but can still enter custom
     - [ ] User has the option of having their donation be public or anonymous
     - [ ] User can leave a message with their donation
+    - [ ] Funding Page Subscriptions
 - [ ] When clicking "Get Started" button, and authenticated, should go to the dashboard instead of home page
+- [ ] REST API
+- [ ] Export donation CSV
