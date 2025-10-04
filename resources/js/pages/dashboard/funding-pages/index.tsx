@@ -37,7 +37,11 @@ export default function Index({
 
                 <div className="flex justify-between">
                     {/* MARK: - Pagination controls go here */}
-                    <Pagination links={fundingPages.links} perPage={fundingPages.per_page} total={fundingPages.total} />
+                    <Pagination
+                        links={fundingPages.links}
+                        perPage={fundingPages.per_page}
+                        total={fundingPages.total}
+                    />
 
                     {/* MARK: - Search controls go here */}
                     <div>

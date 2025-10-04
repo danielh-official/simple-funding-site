@@ -36,15 +36,15 @@ class FundingPageController extends Controller
         if ($request->user()->cannot('view', $fundingPage)) {
             abort(404, 'Funding page not found.');
         }
-        
+
         $updates = $fundingPage->updates()->latest()->paginate(
-            perPage: $request->input('updates_per_page', 5), 
-            page: $request->input('updates_page', 1), 
+            perPage: $request->input('updates_per_page', 5),
+            page: $request->input('updates_page', 1),
             pageName: 'updates_page'
         );
 
         $donations = $fundingPage->donations()->latest()->paginate(
-            perPage: $request->input('donations_per_page', 5), 
+            perPage: $request->input('donations_per_page', 5),
             page: $request->input('donations_page', 1),
             pageName: 'donations_page'
         );

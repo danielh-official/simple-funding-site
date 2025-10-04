@@ -5,11 +5,25 @@ import { Button } from '@/components/ui/button';
 import Pagination from '@/components/ui/pagination';
 import AppLayout from '@/layouts/app-layout';
 import { index } from '@/routes/dashboard/my-funding-pages';
-import { FundingPage, FundingPageDonation, FundingPageUpdate, PaginatedResponse, type BreadcrumbItem } from '@/types';
-import { Form, Head, Link, router } from '@inertiajs/react';
+import {
+    FundingPage,
+    FundingPageDonation,
+    FundingPageUpdate,
+    PaginatedResponse,
+    type BreadcrumbItem,
+} from '@/types';
+import { Form, Head } from '@inertiajs/react';
 import { useState } from 'react';
 
-export default function Show({ fundingPage, updates, donations }: { fundingPage: FundingPage, updates: PaginatedResponse<FundingPageUpdate>, donations: PaginatedResponse<FundingPageDonation> }) {
+export default function Show({
+    fundingPage,
+    updates,
+    donations,
+}: {
+    fundingPage: FundingPage;
+    updates: PaginatedResponse<FundingPageUpdate>;
+    donations: PaginatedResponse<FundingPageDonation>;
+}) {
     // In future, get funding page data from props via usePage<SharedData>().props
     const page = fundingPage;
 
@@ -61,7 +75,12 @@ export default function Show({ fundingPage, updates, donations }: { fundingPage:
                             Updates
                         </h3>
 
-                        <Pagination links={updates.links} perPage={updates.per_page} total={updates.total} perPageQueryParam="updates_per_page" />
+                        <Pagination
+                            links={updates.links}
+                            perPage={updates.per_page}
+                            total={updates.total}
+                            perPageQueryParam="updates_per_page"
+                        />
 
                         {/* Add an "Post Update" button to the end of the page, next to the title - should open a modal that has the form to post an update*/}
                         <Button
@@ -89,8 +108,8 @@ export default function Show({ fundingPage, updates, donations }: { fundingPage:
                                             {update.title} &bull;{' '}
                                             {update.created_at
                                                 ? convertToLocalDateWithTime(
-                                                    update.created_at,
-                                                )
+                                                      update.created_at,
+                                                  )
                                                 : 'N/A'}
                                         </div>
                                         <div className="text-sm">
@@ -135,8 +154,13 @@ export default function Show({ fundingPage, updates, donations }: { fundingPage:
                         Recent Donations
                     </h3>
 
-                    <Pagination links={donations.links} perPage={donations.per_page} total={donations.total} perPageQueryParam="donations_per_page" />
-                    
+                    <Pagination
+                        links={donations.links}
+                        perPage={donations.per_page}
+                        total={donations.total}
+                        perPageQueryParam="donations_per_page"
+                    />
+
                     <ul className="flex flex-col gap-2">
                         {donations.data.map((donation) => (
                             <li
