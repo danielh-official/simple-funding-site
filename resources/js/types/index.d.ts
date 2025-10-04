@@ -47,6 +47,7 @@ export interface FundingPageUpdate {
     title: string;
     content: string;
     created_at?: string;
+    funding_page?: FundingPage;
 }
 
 export interface FundingPageDonation {

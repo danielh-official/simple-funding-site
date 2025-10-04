@@ -35,12 +35,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::resource('my-updates', FundingPageUpdateController::class)
             ->parameters([
-                'my-updates' => 'fundingPageUpdate',
+                'my-updates' => 'fundingPageUpdate:uuid',
             ])->only(['index', 'destroy']);
 
         Route::resource('my-donations', controller: FundingPageDonationController::class)
             ->parameters([
-                'my-donations' => 'donation',
+                'my-donations' => 'donation:uuid',
             ])
             ->only(['index']);
     });

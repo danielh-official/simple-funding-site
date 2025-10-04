@@ -3,31 +3,31 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Models\FundingPage;
 use App\Models\FundingPageUpdate;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class FundingPageUpdateController extends Controller
 {
     /**
-     * Store a newly created resource in storage.
+     * Display a listing of the resource.
      */
-    public function store(Request $request)
+    public function index(Request $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string|max:5000',
-            'funding_page_id' => 'required|exists:funding_pages,id',
-        ]);
+        if ($request->user()->cannot('viewAny', FundingPageUpdate::class)) {
+            abort(404, 'Funding page updates not found.');
+        }
 
-        $fundingPage = FundingPage::whereUuid($request->input('funding_page_id'))->firstOrFail();
+        $fundingPageUpdates = $request->user()
+            ->fundingPageUpdates()
+            ->with('fundingPage')
+            ->latest()
+            ->paginate(
+                perPage: $request->input('per_page', 5),
+                page: $request->input('page', 1)
+            );
 
-        $fundingPage->updates()->create([
-            'title' => $request->input('title'),
-            'content' => $request->input('content'),
-        ]);
-
-        return to_route('dashboard.my-updates.index', $fundingPage);
+        return Inertia::render('dashboard/updates/index', compact('fundingPageUpdates'));
     }
 
     /**
@@ -35,6 +35,10 @@ class FundingPageUpdateController extends Controller
      */
     public function destroy(FundingPageUpdate $fundingPageUpdate)
     {
+        if (request()->user()->cannot('delete', $fundingPageUpdate)) {
+            abort(404, 'Funding page update not found.');
+        }
+
         $fundingPageUpdate->delete();
 
         return back();
