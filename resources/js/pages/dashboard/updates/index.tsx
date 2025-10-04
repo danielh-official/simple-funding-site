@@ -11,7 +11,7 @@ import { Form, Head } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'My Funding Page Updates',
+        title: 'Updates To My Funding Pages',
         href: index().url,
     },
 ];
@@ -25,13 +25,15 @@ export default function Index({
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="My Updates" />
 
-            <div className="mt-4">
-                <Pagination
-                    perPage={fundingPageUpdates.per_page}
-                    total={fundingPageUpdates.total}
-                    links={fundingPageUpdates.links}
-                />
-            </div>
+            {fundingPageUpdates.total > 0 && (
+                <div className="mt-4">
+                    <Pagination
+                        perPage={fundingPageUpdates.per_page}
+                        total={fundingPageUpdates.total}
+                        links={fundingPageUpdates.links}
+                    />
+                </div>
+            )}
 
             <div className="flex flex-col gap-8 p-4">
                 {fundingPageUpdates.data.map((update) => (
@@ -81,6 +83,12 @@ export default function Index({
                         <CardContent>{update.content}</CardContent>
                     </Card>
                 ))}
+
+                {fundingPageUpdates.total === 0 && (
+                    <div className="text-center text-sm text-muted-foreground">
+                        You have not posted any updates yet.
+                    </div>
+                )}
             </div>
         </AppLayout>
     );

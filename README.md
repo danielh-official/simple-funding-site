@@ -61,7 +61,7 @@ Why? This repository exists to showcase my Laravel and React skills. I have no i
         - [x] Add pagination to funding page updates
         - [x] Add pagination to funding page donations
     - [x] My Updates
-    - [ ] My Donations
+    - [x] My Donations
 - [ ] REST API
 - [ ] Export donation CSV
 - [ ] Visiting users (guests)

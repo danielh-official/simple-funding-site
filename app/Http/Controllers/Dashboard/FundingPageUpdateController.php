@@ -14,10 +14,6 @@ class FundingPageUpdateController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->user()->cannot('viewAny', FundingPageUpdate::class)) {
-            abort(404, 'Funding page updates not found.');
-        }
-
         $fundingPageUpdates = $request->user()
             ->fundingPageUpdates()
             ->with('fundingPage')

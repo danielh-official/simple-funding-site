@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Dashboard\FundingPage\FundingPageUpdateController as FundingPageShowFundingPageUpdateController;
 use App\Http\Controllers\Dashboard\FundingPageController;
-use App\Http\Controllers\Dashboard\FundingPageDonationController;
+use App\Http\Controllers\Dashboard\UserDonationController;
 use App\Http\Controllers\Dashboard\FundingPageUpdateController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -38,7 +38,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 'my-updates' => 'fundingPageUpdate:uuid',
             ])->only(['index', 'destroy']);
 
-        Route::resource('my-donations', controller: FundingPageDonationController::class)
+        Route::resource('my-donations', controller: UserDonationController::class)
             ->parameters([
                 'my-donations' => 'donation:uuid',
             ])

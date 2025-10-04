@@ -30,9 +30,8 @@ const mainNavItems: NavItem[] = [
         href: index(),
         icon: LayoutGrid,
     },
-    // TODO: Finish initial setup on these pages
     {
-        title: 'My Updates',
+        title: 'Updates To My Funding Pages',
         href: myUpdates(),
         icon: ArrowUpCircle,
     },

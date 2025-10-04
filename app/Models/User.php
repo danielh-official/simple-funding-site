@@ -97,4 +97,12 @@ class User extends Authenticatable
     {
         return $this->hasManyThrough(FundingPageUpdate::class, FundingPage::class);
     }
+
+    /**
+     * Get the user's donations to other funding pages.
+     */
+    public function donations()
+    {
+        return $this->hasMany(FundingPageDonation::class);
+    }
 }

@@ -57,6 +57,7 @@ export interface FundingPageDonation {
     donor_email: string;
     message?: string;
     created_at?: string;
+    funding_page?: FundingPage;
 }
 
 export interface FundingPage {
