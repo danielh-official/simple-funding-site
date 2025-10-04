@@ -9,15 +9,20 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { home } from '@/routes';
+import { index as myDonations } from '@/routes/dashboard/my-donations';
 import { index } from '@/routes/dashboard/my-funding-pages';
+import { index as myUpdates } from '@/routes/dashboard/my-updates';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { ArrowBigLeftIcon, ArrowUpCircle, CircleDollarSign, LayoutGrid } from 'lucide-react';
+import {
+    ArrowBigLeftIcon,
+    ArrowUpCircle,
+    CircleDollarSign,
+    LayoutGrid,
+} from 'lucide-react';
 import AppLogo from './app-logo';
 import { NavFooter } from './nav-footer';
-import { home } from '@/routes';
-import { index as myUpdates } from '@/routes/dashboard/my-updates';
-import { index as myDonations } from '@/routes/dashboard/my-donations';
 
 const mainNavItems: NavItem[] = [
     {
@@ -35,7 +40,7 @@ const mainNavItems: NavItem[] = [
         title: 'My Donations',
         href: myDonations(),
         icon: CircleDollarSign,
-    }
+    },
 ];
 
 const footerNavItems: NavItem[] = [

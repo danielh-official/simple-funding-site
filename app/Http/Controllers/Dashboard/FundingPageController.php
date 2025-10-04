@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\FundingPage;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Inertia\Inertia;
@@ -12,9 +13,23 @@ class FundingPageController extends Controller
 {
     public function index(Request $request)
     {
-        $fundingPages = FundingPage::where('user_id', $request->user()->id)->with('updates')->paginate();
+        $search = $request->input('search');
 
-        return Inertia::render('dashboard/funding-pages/index', compact('fundingPages'));
+        $fundingPages = FundingPage::where('user_id', $request->user()->id)
+            ->where(function (Builder $query) use ($search) {
+                if ($search) {
+                    $query->where('title', 'like', "%$search%")
+                        ->orWhere('description', 'like', "%$search%");
+                }
+            })
+            ->latest()
+            ->with('updates')
+            ->paginate(
+                perPage: $request->input('per_page', 5),
+                page: $request->input('page', 1)
+            );
+
+        return Inertia::render('dashboard/funding-pages/index', compact('fundingPages', 'search'));
     }
 
     public function show(Request $request, FundingPage $fundingPage)

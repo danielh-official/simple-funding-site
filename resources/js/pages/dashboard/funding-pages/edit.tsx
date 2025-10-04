@@ -12,10 +12,9 @@ import {
 } from '@/components/dashboard/funding-pages/form';
 import AppLayout from '@/layouts/app-layout';
 import { edit, index } from '@/routes/dashboard/my-funding-pages';
-import { type BreadcrumbItem } from '@/types';
+import { FundingPage, type BreadcrumbItem } from '@/types';
 import { Form, Head, usePage } from '@inertiajs/react';
 import { useState } from 'react';
-import { FundingPage } from '@/types';
 
 export default function Edit({ fundingPage }: { fundingPage: FundingPage }) {
     const breadcrumbs: BreadcrumbItem[] = [

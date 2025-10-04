@@ -1,13 +1,12 @@
 import { destroy } from '@/actions/App/Http/Controllers/Dashboard/FundingPage/FundingPageUpdateController';
+import { convertToLocalDateWithTime } from '@/app';
 import PostUpdateModal from '@/components/dashboard/funding-pages/my-updates/post-modal';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { index } from '@/routes/dashboard/my-funding-pages';
-import { type BreadcrumbItem } from '@/types';
+import { FundingPage, type BreadcrumbItem } from '@/types';
 import { Form, Head } from '@inertiajs/react';
 import { useState } from 'react';
-import { FundingPage } from '@/types';
-import { convertToLocalDateWithTime } from '@/app';
 
 export default function Show({ fundingPage }: { fundingPage: FundingPage }) {
     // In future, get funding page data from props via usePage<SharedData>().props

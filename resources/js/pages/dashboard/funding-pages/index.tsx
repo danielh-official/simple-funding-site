@@ -1,9 +1,9 @@
+import { convertToLocalDate, convertToLocalDateWithTime } from '@/app';
 import AppLayout from '@/layouts/app-layout';
 import { create, edit, index, show } from '@/routes/dashboard/my-funding-pages';
-import { type BreadcrumbItem } from '@/types';
-import { Head, Link } from '@inertiajs/react';
-import { FundingPage, PaginatedResponse } from '@/types';
-import { convertToLocalDate, convertToLocalDateWithTime } from '@/app';
+import { FundingPage, PaginatedResponse, type BreadcrumbItem } from '@/types';
+import { Head, Link, router } from '@inertiajs/react';
+import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -14,9 +14,13 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function Index({
     fundingPages,
+    search,
 }: {
     fundingPages: PaginatedResponse<FundingPage>;
+    search: string;
 }) {
+    const [searchState, setSearchState] = useState(search || '');
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="My Funding Pages" />
@@ -29,6 +33,113 @@ export default function Index({
                         + Create New Funding Page
                     </Link>
                 </div>
+
+                <div className="flex justify-between">
+                    <div className="flex items-center justify-center gap-4">
+                        {/* MARK: - Pagination controls go here */}
+
+                        <div>
+                            <nav
+                                className="flex gap-2 text-sm"
+                                aria-label="Pagination"
+                            >
+                                {fundingPages.links.map((link, index) =>
+                                    link?.url ? (
+                                        <Link
+                                            key={index}
+                                            href={`${link.url}&per_page=${fundingPages.per_page}`}
+                                            className={
+                                                link.active ? 'active' : ''
+                                            }
+                                            dangerouslySetInnerHTML={{
+                                                __html: link.label,
+                                            }}
+                                        />
+                                    ) : (
+                                        <span />
+                                    ),
+                                )}
+                            </nav>
+                        </div>
+
+                        {/* MARK: Number of items per pagec controls go here */}
+
+                        <div>
+                            <select
+                                className="rounded border border-gray-300 p-2"
+                                value={fundingPages.per_page}
+                                onChange={(e) => {
+                                    // Handle changing items per page
+                                    const newPerPage = Number(e.target.value);
+                                    // Should be persisted in the url query parameters
+                                    const url = new URL(window.location.href);
+                                    url.searchParams.set(
+                                        'per_page',
+                                        newPerPage.toString(),
+                                    );
+                                    // Should trigger a re-fetch of the funding pages with the new per_page value
+                                    router.get(url.toString());
+                                }}
+                            >
+                                <option value={5}>5</option>
+                                <option value={10}>10</option>
+                                <option value={20}>20</option>
+                            </select>
+                        </div>
+
+                        {/* MARK: - Total number of items */}
+                        <div>
+                            <span className="text-sm text-muted-foreground">
+                                {fundingPages.total}{' '}
+                                {fundingPages.total === 1 ? 'item' : 'items'}
+                            </span>
+                        </div>
+                    </div>
+
+                    {/* MARK: - Search controls go here */}
+                    <div>
+                        <div className="flex">
+                            <input
+                                value={searchState}
+                                onChange={(e) => setSearchState(e.target.value)}
+                                type="text"
+                                placeholder="Search funding pages..."
+                                className="rounded border border-gray-300 p-2"
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        const url = new URL(
+                                            window.location.href,
+                                        );
+                                        url.searchParams.set(
+                                            'search',
+                                            searchState,
+                                        );
+                                        router.get(url.toString());
+                                    }
+                                }}
+                            />
+                        </div>
+                        {/* MARK: - Clear search button */}
+                        {searchState && (
+                            <div className="mt-1 text-right">
+                                <button
+                                    className="text-sm text-blue-500 hover:underline"
+                                    onClick={() => {
+                                        setSearchState('');
+                                        const url = new URL(
+                                            window.location.href,
+                                        );
+                                        url.searchParams.delete('search');
+                                        router.get(url.toString());
+                                    }}
+                                >
+                                    Clear Search
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                     {fundingPages.data.map((page) => (
                         <div

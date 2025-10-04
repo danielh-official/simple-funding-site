@@ -85,6 +85,7 @@ export interface PaginatedResponse<T> {
         url: string | null;
         label: string;
         active: boolean;
+        page: number | null;
     }[];
     next_page_url: string | null;
     path: string;
