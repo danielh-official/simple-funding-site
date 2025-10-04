@@ -2,6 +2,10 @@
 
 Why? This repository exists to showcase my Laravel and React skills. I have no intention of making a product out of this.
 
+## Getting Started
+
+<!-- TODO: Add a Getting Started section for new developers to get set up on their device -->
+
 ## How It Should Work
 
 - Has a static guest frontend that explains the site and its purpose with a:
