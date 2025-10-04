@@ -33,9 +33,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ])->only(['store', 'destroy']);
         });
 
-        Route::resource('my-updates', FundingPageUpdateController::class)
+        Route::resource('updates-to-my-funding-pages', FundingPageUpdateController::class)
             ->parameters([
-                'my-updates' => 'fundingPageUpdate:uuid',
+                'updates-to-my-funding-pages' => 'fundingPageUpdate:uuid',
             ])->only(['index', 'destroy']);
 
         Route::resource('my-donations', controller: UserDonationController::class)

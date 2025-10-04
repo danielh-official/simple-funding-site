@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Pagination from '@/components/ui/pagination';
 import AppLayout from '@/layouts/app-layout';
 import { show } from '@/routes/dashboard/my-funding-pages';
-import { index } from '@/routes/dashboard/my-updates';
+import { index } from '@/routes/dashboard/updates-to-my-funding-pages';
 import { BreadcrumbItem, FundingPageUpdate, PaginatedResponse } from '@/types';
 import { Form, Head } from '@inertiajs/react';
 
@@ -23,7 +23,11 @@ export default function Index({
 }) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="My Updates" />
+            <Head title="Updates To My Funding Pages" />
+
+            <div className='text-sm text-muted-foreground p-4'>
+                Updates you have made to funding pages.
+            </div>
 
             {fundingPageUpdates.total > 0 && (
                 <div className="mt-4">

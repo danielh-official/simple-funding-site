@@ -27,6 +27,10 @@ export default function Index({
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="My Donations" />
 
+            <div className='text-sm text-muted-foreground p-4'>
+                Donations you have made to funding pages.
+            </div>
+
             {donations.total > 0 && (
                 <div className="mt-4">
                     <Pagination

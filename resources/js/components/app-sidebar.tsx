@@ -12,7 +12,7 @@ import {
 import { home } from '@/routes';
 import { index as myDonations } from '@/routes/dashboard/my-donations';
 import { index } from '@/routes/dashboard/my-funding-pages';
-import { index as myUpdates } from '@/routes/dashboard/my-updates';
+import { index as myUpdates } from '@/routes/dashboard/updates-to-my-funding-pages';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import {
