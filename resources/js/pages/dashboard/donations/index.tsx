@@ -2,9 +2,13 @@ import { convertToLocalDateWithTime } from '@/app';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import Pagination from '@/components/ui/pagination';
 import AppLayout from '@/layouts/app-layout';
-import { show } from '@/routes/dashboard/my-funding-pages';
 import { index } from '@/routes/dashboard/my-donations';
-import { BreadcrumbItem, FundingPageDonation, PaginatedResponse } from '@/types';
+import { show } from '@/routes/dashboard/my-funding-pages';
+import {
+    BreadcrumbItem,
+    FundingPageDonation,
+    PaginatedResponse,
+} from '@/types';
 import { Head } from '@inertiajs/react';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -38,7 +42,9 @@ export default function Index({
                     <Card key={donation.uuid} className="mb-4 p-4">
                         <CardTitle className="mb-2 flex items-center justify-between">
                             <div>
-                                {convertToLocalDateWithTime(donation.created_at)}
+                                {convertToLocalDateWithTime(
+                                    donation.created_at,
+                                )}
                             </div>
                         </CardTitle>
                         <CardHeader>
@@ -57,7 +63,9 @@ export default function Index({
                                 </a>
                             </div>
                         </CardHeader>
-                        <CardContent>{donation.message ?? 'No message provided'}</CardContent>
+                        <CardContent>
+                            {donation.message ?? 'No message provided'}
+                        </CardContent>
                     </Card>
                 ))}
                 {donations.total === 0 && (
