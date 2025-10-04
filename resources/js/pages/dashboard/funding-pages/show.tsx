@@ -2,13 +2,14 @@ import { destroy } from '@/actions/App/Http/Controllers/Dashboard/FundingPage/Fu
 import { convertToLocalDateWithTime } from '@/app';
 import PostUpdateModal from '@/components/dashboard/funding-pages/my-updates/post-modal';
 import { Button } from '@/components/ui/button';
+import Pagination from '@/components/ui/pagination';
 import AppLayout from '@/layouts/app-layout';
 import { index } from '@/routes/dashboard/my-funding-pages';
-import { FundingPage, type BreadcrumbItem } from '@/types';
-import { Form, Head } from '@inertiajs/react';
+import { FundingPage, FundingPageDonation, FundingPageUpdate, PaginatedResponse, type BreadcrumbItem } from '@/types';
+import { Form, Head, Link, router } from '@inertiajs/react';
 import { useState } from 'react';
 
-export default function Show({ fundingPage }: { fundingPage: FundingPage }) {
+export default function Show({ fundingPage, updates, donations }: { fundingPage: FundingPage, updates: PaginatedResponse<FundingPageUpdate>, donations: PaginatedResponse<FundingPageDonation> }) {
     // In future, get funding page data from props via usePage<SharedData>().props
     const page = fundingPage;
 
@@ -60,8 +61,9 @@ export default function Show({ fundingPage }: { fundingPage: FundingPage }) {
                             Updates
                         </h3>
 
-                        {/* Add an "Post Update" button to the end of the page, next to the title - should open a modal that has the form to post an update*/}
+                        <Pagination links={updates.links} perPage={updates.per_page} total={updates.total} perPageQueryParam="updates_per_page" />
 
+                        {/* Add an "Post Update" button to the end of the page, next to the title - should open a modal that has the form to post an update*/}
                         <Button
                             className="cursor-pointer bg-[#f53003] hover:bg-[#d82a00] dark:bg-[#FF4433] dark:hover:bg-[#d82a00]"
                             onClick={() => setShowPostUpdateModal(true)}
@@ -76,7 +78,7 @@ export default function Show({ fundingPage }: { fundingPage: FundingPage }) {
                         />
                     </div>
                     <ul className="flex flex-col gap-2">
-                        {page.updates.map((update) => (
+                        {updates.data.map((update) => (
                             <li
                                 key={update.uuid}
                                 className="rounded bg-[#fff2f2] p-3 dark:bg-[#1D0002]"
@@ -87,8 +89,8 @@ export default function Show({ fundingPage }: { fundingPage: FundingPage }) {
                                             {update.title} &bull;{' '}
                                             {update.created_at
                                                 ? convertToLocalDateWithTime(
-                                                      update.created_at,
-                                                  )
+                                                    update.created_at,
+                                                )
                                                 : 'N/A'}
                                         </div>
                                         <div className="text-sm">
@@ -120,7 +122,7 @@ export default function Show({ fundingPage }: { fundingPage: FundingPage }) {
                                 </div>
                             </li>
                         ))}
-                        {page.updates.length === 0 && (
+                        {updates.total === 0 && (
                             <li className="text-sm text-muted-foreground">
                                 No updates yet.
                             </li>
@@ -132,8 +134,11 @@ export default function Show({ fundingPage }: { fundingPage: FundingPage }) {
                     <h3 className="text-lg font-semibold text-[#1b1b18] dark:text-[#EDEDEC]">
                         Recent Donations
                     </h3>
+
+                    <Pagination links={donations.links} perPage={donations.per_page} total={donations.total} perPageQueryParam="donations_per_page" />
+                    
                     <ul className="flex flex-col gap-2">
-                        {page.donations.map((donation) => (
+                        {donations.data.map((donation) => (
                             <li
                                 key={donation.uuid}
                                 className="flex items-center justify-between rounded bg-white p-3 shadow-sm dark:bg-[#161615]"
@@ -150,7 +155,7 @@ export default function Show({ fundingPage }: { fundingPage: FundingPage }) {
                                 </span>
                             </li>
                         ))}
-                        {page.donations.length === 0 && (
+                        {donations.total === 0 && (
                             <li className="text-sm text-muted-foreground">
                                 No donations yet.
                             </li>

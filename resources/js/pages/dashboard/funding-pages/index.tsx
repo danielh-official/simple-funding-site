@@ -1,4 +1,5 @@
 import { convertToLocalDate, convertToLocalDateWithTime } from '@/app';
+import Pagination from '@/components/ui/pagination';
 import AppLayout from '@/layouts/app-layout';
 import { create, edit, index, show } from '@/routes/dashboard/my-funding-pages';
 import { FundingPage, PaginatedResponse, type BreadcrumbItem } from '@/types';
@@ -35,66 +36,8 @@ export default function Index({
                 </div>
 
                 <div className="flex justify-between">
-                    <div className="flex items-center justify-center gap-4">
-                        {/* MARK: - Pagination controls go here */}
-
-                        <div>
-                            <nav
-                                className="flex gap-2 text-sm"
-                                aria-label="Pagination"
-                            >
-                                {fundingPages.links.map((link, index) =>
-                                    link?.url ? (
-                                        <Link
-                                            key={index}
-                                            href={`${link.url}&per_page=${fundingPages.per_page}`}
-                                            className={
-                                                link.active ? 'active' : ''
-                                            }
-                                            dangerouslySetInnerHTML={{
-                                                __html: link.label,
-                                            }}
-                                        />
-                                    ) : (
-                                        <span />
-                                    ),
-                                )}
-                            </nav>
-                        </div>
-
-                        {/* MARK: Number of items per pagec controls go here */}
-
-                        <div>
-                            <select
-                                className="rounded border border-gray-300 p-2"
-                                value={fundingPages.per_page}
-                                onChange={(e) => {
-                                    // Handle changing items per page
-                                    const newPerPage = Number(e.target.value);
-                                    // Should be persisted in the url query parameters
-                                    const url = new URL(window.location.href);
-                                    url.searchParams.set(
-                                        'per_page',
-                                        newPerPage.toString(),
-                                    );
-                                    // Should trigger a re-fetch of the funding pages with the new per_page value
-                                    router.get(url.toString());
-                                }}
-                            >
-                                <option value={5}>5</option>
-                                <option value={10}>10</option>
-                                <option value={20}>20</option>
-                            </select>
-                        </div>
-
-                        {/* MARK: - Total number of items */}
-                        <div>
-                            <span className="text-sm text-muted-foreground">
-                                {fundingPages.total}{' '}
-                                {fundingPages.total === 1 ? 'item' : 'items'}
-                            </span>
-                        </div>
-                    </div>
+                    {/* MARK: - Pagination controls go here */}
+                    <Pagination links={fundingPages.links} perPage={fundingPages.per_page} total={fundingPages.total} />
 
                     {/* MARK: - Search controls go here */}
                     <div>
