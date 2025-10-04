@@ -70,3 +70,4 @@ Why? This repository exists to showcase my Laravel and React skills. I have no i
     - [ ] Authenticated users have their name and email filled in by default but can still enter custom
     - [ ] User has the option of having their donation be public or anonymous
     - [ ] User can leave a message with their donation
+- [ ] When clicking "Get Started" button, and authenticated, should go to the dashboard instead of home page
