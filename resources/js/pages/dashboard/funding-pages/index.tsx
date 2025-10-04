@@ -2,58 +2,8 @@ import AppLayout from '@/layouts/app-layout';
 import { create, edit, index, show } from '@/routes/dashboard/my-funding-pages';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
-
-export interface FundingPageUpdate {
-    uuid: string;
-    title: string;
-    content: string;
-    created_at?: string;
-}
-
-export interface FundingPageDonation {
-    uuid: string;
-    amount: number;
-    donor_name?: string;
-    donor_email: string;
-    message?: string;
-    created_at?: string;
-}
-
-export interface FundingPage {
-    uuid: string;
-    title: string;
-    description: string;
-    currency: string;
-    goal_amount?: number;
-    current_amount: number;
-    start_date?: string;
-    end_date?: string;
-    published_at?: string;
-    created_at?: string;
-    updated_at?: string;
-    updates: FundingPageUpdate[];
-    donations: FundingPageDonation[];
-}
-
-export interface PaginatedResponse<T> {
-    current_page: number;
-    data: T[];
-    first_page_url: string;
-    from: number;
-    last_page: number;
-    last_page_url: string;
-    links: {
-        url: string | null;
-        label: string;
-        active: boolean;
-    }[];
-    next_page_url: string | null;
-    path: string;
-    per_page: number;
-    prev_page_url: string | null;
-    to: number;
-    total: number;
-}
+import { FundingPage, PaginatedResponse } from '@/types';
+import { convertToLocalDate, convertToLocalDateWithTime } from '@/app';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -61,32 +11,6 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: index().url,
     },
 ];
-
-function convertToLocalDateWithTime(dateString?: string) {
-    if (!dateString) return '';
-
-    const date = new Date(dateString);
-
-    return date.toLocaleDateString(undefined, {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: '2-digit',
-    });
-}
-
-function convertToLocalDate(dateString?: string) {
-    if (!dateString) return '';
-
-    const date = new Date(dateString);
-
-    return date.toLocaleDateString(undefined, {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric',
-    });
-}
 
 export default function Index({
     fundingPages,

@@ -41,3 +41,55 @@ export interface User {
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
 }
+
+export interface FundingPageUpdate {
+    uuid: string;
+    title: string;
+    content: string;
+    created_at?: string;
+}
+
+export interface FundingPageDonation {
+    uuid: string;
+    amount: number;
+    donor_name?: string;
+    donor_email: string;
+    message?: string;
+    created_at?: string;
+}
+
+export interface FundingPage {
+    uuid: string;
+    title: string;
+    description: string;
+    currency: string;
+    goal_amount?: number;
+    current_amount: number;
+    start_date?: string;
+    end_date?: string;
+    published_at?: string;
+    created_at?: string;
+    updated_at?: string;
+    updates: FundingPageUpdate[];
+    donations: FundingPageDonation[];
+}
+
+export interface PaginatedResponse<T> {
+    current_page: number;
+    data: T[];
+    first_page_url: string;
+    from: number;
+    last_page: number;
+    last_page_url: string;
+    links: {
+        url: string | null;
+        label: string;
+        active: boolean;
+    }[];
+    next_page_url: string | null;
+    path: string;
+    per_page: number;
+    prev_page_url: string | null;
+    to: number;
+    total: number;
+}

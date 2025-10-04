@@ -26,3 +26,29 @@ createInertiaApp({
 
 // This will set light / dark mode on load...
 initializeTheme();
+
+export function convertToLocalDateWithTime(dateString?: string) {
+    if (!dateString) return '';
+
+    const date = new Date(dateString);
+
+    return date.toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+    });
+}
+
+export function convertToLocalDate(dateString?: string) {
+    if (!dateString) return '';
+
+    const date = new Date(dateString);
+
+    return date.toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+    });
+}

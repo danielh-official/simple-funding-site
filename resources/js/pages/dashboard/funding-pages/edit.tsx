@@ -15,7 +15,7 @@ import { edit, index } from '@/routes/dashboard/my-funding-pages';
 import { type BreadcrumbItem } from '@/types';
 import { Form, Head, usePage } from '@inertiajs/react';
 import { useState } from 'react';
-import { FundingPage } from '.';
+import { FundingPage } from '@/types';
 
 export default function Edit({ fundingPage }: { fundingPage: FundingPage }) {
     const breadcrumbs: BreadcrumbItem[] = [

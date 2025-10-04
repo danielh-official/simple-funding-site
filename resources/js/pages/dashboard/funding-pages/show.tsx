@@ -6,7 +6,8 @@ import { index } from '@/routes/dashboard/my-funding-pages';
 import { type BreadcrumbItem } from '@/types';
 import { Form, Head } from '@inertiajs/react';
 import { useState } from 'react';
-import { FundingPage } from '.';
+import { FundingPage } from '@/types';
+import { convertToLocalDateWithTime } from '@/app';
 
 export default function Show({ fundingPage }: { fundingPage: FundingPage }) {
     // In future, get funding page data from props via usePage<SharedData>().props
@@ -18,17 +19,6 @@ export default function Show({ fundingPage }: { fundingPage: FundingPage }) {
     ];
 
     const [showUpdateModal, setShowPostUpdateModal] = useState<boolean>(false);
-
-    function convertToLocalDateTime(dateString: string) {
-        const date = new Date(dateString);
-        return date.toLocaleDateString(undefined, {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-        });
-    }
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -97,7 +87,7 @@ export default function Show({ fundingPage }: { fundingPage: FundingPage }) {
                                         <div className="mb-1 text-xs text-muted-foreground">
                                             {update.title} &bull;{' '}
                                             {update.created_at
-                                                ? convertToLocalDateTime(
+                                                ? convertToLocalDateWithTime(
                                                       update.created_at,
                                                   )
                                                 : 'N/A'}
