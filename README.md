@@ -58,7 +58,7 @@ Why? This repository exists to showcase my Laravel and React skills. I have no i
 
 - [x] Static pages
 - [x] Use Dynamic Data
-- [ ] Dashboard
+- [x] Dashboard
     - [x] My Funding Pages
         - [x] Add pagination to funding pages
     - [x] Funding Page Show
